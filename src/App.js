@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 
-import useUnsplash from './hooks/useUnsplash';
+// import useUnsplash from './hooks/useUnsplash';
 import SearchBar from './SearchBar/SearchBar';
 
 import {
@@ -16,21 +16,23 @@ export const ContextData = createContext();
 
 const App = () => {
     const [searchWord, setSearchWord] = useState('');
+    const [languageTranslation, setLanguageTranslation] = useState('ru');
     const [data, setData] = useState([]);
-    const { response, isLoading, error, fetchDataUnsplash } = useUnsplash();
+    // const { response, isLoading, error, fetchDataUnsplash } = useUnsplash();
 
     const value = {
-        response,
-        isLoading,
-        error,
-        fetchDataUnsplash,
+        languageTranslation,
+        // response,
+        // isLoading,
+        // error,
+        // fetchDataUnsplash,
         searchWord,
         setSearchWord,
     };
 
-    useEffect(() => {
-        getDataFireBase(setData);
-    }, [data]);
+    // useEffect(() => {
+    //     getDataFireBase(setData);
+    // }, [data]);
 
     return (
         <ContextData.Provider value={value}>
@@ -43,7 +45,10 @@ const App = () => {
                     <button
                         type="button"
                         onClick={() => {
-                            addDataFireBase(response, searchWord);
+                            // fetchDataUnsplash(
+                            //     `/search/photos?page=1&per_page=1&orientation=landscape&query=${searchWord}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`
+                            // );
+                            // addDataFireBase(response, searchWord);
                         }}
                         style={{ backgroundColor: 'teal', borderRadius: '10px', padding: '10px' }}
                     >

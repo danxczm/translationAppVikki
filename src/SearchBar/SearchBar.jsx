@@ -1,21 +1,24 @@
 import { useContext, useState } from 'react';
 import { ContextData } from '../App';
+import { fetchMultipleData } from '../utils/fetchMultipleData';
 
 function SearchBar() {
     const [searchQuery, setSearchQuery] = useState('');
-    const { fetchDataUnsplash, setSearchWord } = useContext(ContextData);
+    const { fetchDataUnsplash, setSearchWord, languageTranslation } = useContext(ContextData);
 
     const handleInputChange = e => {
         setSearchQuery(e.target.value);
+        setSearchWord(e.target.value);
     };
 
     const handleButtonSearch = e => {
         e.preventDefault();
-        fetchDataUnsplash(
-            `/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`
-        );
+        fetchMultipleData(searchQuery, languageTranslation);
+
+        // fetchDataUnsplash(
+        //     `/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`
+        // );
         setSearchQuery('');
-        setSearchWord(searchQuery);
         // ! I get response as undefined when trying to add to FB Cloud
     };
 

@@ -5,12 +5,19 @@ export const addDataFireBase = async (response, word) => {
     console.log(`responseData: `, response);
     console.log(`word: `, word);
 
+    const { id, picture, translation } = response;
+
     try {
         const docRef = await doc(collection(dataBase, 'data'), Date.now().toString());
         setDoc(docRef, {
-            id: response[0]?.id,
-            picture: response[0]?.urls.regular,
+            id,
+            picture,
+            translation,
             word,
+            // id: response[0].id,
+            // picture: response[0].picture,
+            // translation: response[0].translation,
+            // word,
         });
         console.log('Document written with ID: ', docRef.id);
     } catch (e) {

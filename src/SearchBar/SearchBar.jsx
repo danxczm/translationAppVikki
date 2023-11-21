@@ -1,30 +1,24 @@
 import { useContext, useState } from 'react';
 import { ContextData } from '../App';
-import { fetchMultipleData } from '../utils/fetchMultipleData';
 
-function SearchBar() {
+const SearchBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
-    const { fetchDataUnsplash, setSearchWord, languageTranslation } = useContext(ContextData);
+    const { setSearchWord, fetchData } = useContext(ContextData);
 
     const handleInputChange = e => {
         setSearchQuery(e.target.value);
         setSearchWord(e.target.value);
     };
 
-    const handleButtonSearch = e => {
+    const handleButtonSearch = async e => {
         e.preventDefault();
-        fetchMultipleData(searchQuery, languageTranslation);
-
-        // fetchDataUnsplash(
-        //     `/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`
-        // );
+        await fetchData();
         setSearchQuery('');
-        // ! I get response as undefined when trying to add to FB Cloud
     };
 
     return (
-        <div className="w-10/12 ml-auto mr-auto">
-            <form>
+        <div className="flex justify-between py-10">
+            <form className="w-full">
                 <label
                     htmlFor="default-search"
                     className="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -61,7 +55,7 @@ function SearchBar() {
                     <button
                         disabled={!searchQuery}
                         onClick={handleButtonSearch}
-                        className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-8 py-2"
+                        className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-16 py-2"
                     >
                         Add word
                     </button>
@@ -69,6 +63,6 @@ function SearchBar() {
             </form>
         </div>
     );
-}
+};
 
 export default SearchBar;

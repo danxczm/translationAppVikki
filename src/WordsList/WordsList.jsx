@@ -16,9 +16,9 @@ const WordsList = () => {
             ) : (
                 <div className="grid grid-cols-5 gap-3">
                     {dataFb.map(({ id, picture, word, translation }) => (
-                        <div key={id} className="relative h-[300px] w-[300px]">
+                        <div key={id} className="relative h-[270px] w-[270px]">
                             <img
-                                className="object-cover object-center rounded h-[300px] w-[300px]"
+                                className="object-cover object-center rounded h-[270px] w-[270px]"
                                 src={picture}
                                 alt={word}
                             />

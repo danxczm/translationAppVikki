@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/translationAppVikki/static/css/main.f9dd712d.css",
+    "main.js": "/translationAppVikki/static/js/main.4578cb04.js",
+    "index.html": "/translationAppVikki/index.html",
+    "main.f9dd712d.css.map": "/translationAppVikki/static/css/main.f9dd712d.css.map",
+    "main.4578cb04.js.map": "/translationAppVikki/static/js/main.4578cb04.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f9dd712d.css",
+    "static/js/main.4578cb04.js"
+  ]
+}

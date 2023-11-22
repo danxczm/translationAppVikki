@@ -17,7 +17,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="flex justify-between py-10">
+        <div className="flex justify-between py-5 bg-white">
             <form className="w-full">
                 <label
                     htmlFor="default-search"
@@ -55,7 +55,7 @@ const SearchBar = () => {
                     <button
                         disabled={!searchQuery}
                         onClick={handleButtonSearch}
-                        className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-16 py-2"
+                        className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-16 py-2"
                     >
                         Add word
                     </button>

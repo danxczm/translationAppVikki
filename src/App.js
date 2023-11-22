@@ -45,7 +45,7 @@ const App = () => {
 
     return (
         <ContextData.Provider value={value}>
-            <div className="py-5 px-10">
+            <div className="p-5">
                 <ReactToPrint
                     trigger={() => (
                         <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
@@ -68,8 +68,10 @@ const App = () => {
                     )}
                     content={() => componentRef.current}
                 />
-                <Counter />
-                <SearchBar />
+                <div className="sticky top-0 z-10">
+                    <Counter />
+                    <SearchBar />
+                </div>
                 <div ref={componentRef}>
                     <WordsList />
                 </div>

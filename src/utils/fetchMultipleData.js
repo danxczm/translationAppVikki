@@ -34,22 +34,14 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
             axios.request(unsplashOptions),
         ]);
 
-        // const response = {
-        //     id: unsplashResponse.data.results[0].id,
-        //     translation: translationResponse.data[0].translations[0].text,
-        //     picture: unsplashResponse.data.results[0].urls.regular,
-        // };
+        const response = {
+            word: searchQuery,
+            id: unsplashResponse.data.results[0].id,
+            translation: translationResponse.data[0].translations[0].text,
+            picture: unsplashResponse.data.results[0].urls.regular,
+        };
 
-        // addDataFireBase(response, searchQuery);
-
-        return [
-            {
-                word: searchQuery,
-                id: unsplashResponse.data.results[0].id,
-                translation: translationResponse.data[0].translations[0].text,
-                picture: unsplashResponse.data.results[0].urls.regular,
-            },
-        ];
+        return response;
     } catch (error) {
         console.error('fetchMultipleData', error);
     }

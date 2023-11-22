@@ -1,10 +1,24 @@
 import { useContext } from 'react';
 
 import { ContextData } from '../App';
-import { clearCollectionFireBase } from '../Firebase/firebaseActions';
+import { collection, deleteDoc, getDocs } from 'firebase/firestore';
+import { dataBase } from '../Firebase/firebaseConfig';
 
 const Counter = () => {
-    const { data } = useContext(ContextData);
+    const { data, setData, getDataFireBase } = useContext(ContextData);
+
+    const clearCollectionFireBase = async () => {
+        try {
+            await getDocs(collection(dataBase, 'data')).then(querySnapshot =>
+                querySnapshot.docs.forEach(doc => deleteDoc(doc.ref))
+            );
+            setData([]);
+            getDataFireBase();
+            console.log('Collection cleared successfully.');
+        } catch (error) {
+            console.error('Error clearing collection: ', error);
+        }
+    };
 
     return (
         <div className="flex items-center justify-between bg-white">
@@ -17,7 +31,7 @@ const Counter = () => {
 
             <button
                 type="button"
-                onClick={() => clearCollectionFireBase()}
+                onClick={clearCollectionFireBase}
                 className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-md"
             >
                 <svg

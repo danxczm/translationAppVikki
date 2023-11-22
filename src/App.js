@@ -30,7 +30,7 @@ const App = () => {
     const fetchData = async () => {
         try {
             const result = await fetchMultipleData(searchWord, languageTranslation);
-            data.push(...result);
+            data.push(result);
             addDataFireBase(result, searchWord);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -93,5 +93,4 @@ export default App;
 // ! plan:
 // - show loading (change style of the button to "loading")
 // - add translation language option
-// - rerender page when dataFb changes
 // - add description or example on each flashcard

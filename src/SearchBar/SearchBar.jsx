@@ -1,19 +1,18 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ContextData } from '../App';
 
 const SearchBar = () => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const { setSearchWord, fetchData } = useContext(ContextData);
+    const { searchWord, setSearchWord, fetchData, getDataFireBase } = useContext(ContextData);
 
     const handleInputChange = e => {
-        setSearchQuery(e.target.value);
         setSearchWord(e.target.value);
     };
 
     const handleButtonSearch = async e => {
         e.preventDefault();
         await fetchData();
-        setSearchQuery('');
+        setSearchWord('');
+        getDataFireBase();
     };
 
     return (
@@ -44,7 +43,7 @@ const SearchBar = () => {
                         </svg>
                     </div>
                     <input
-                        value={searchQuery}
+                        value={searchWord}
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
@@ -53,7 +52,7 @@ const SearchBar = () => {
                         required
                     />
                     <button
-                        disabled={!searchQuery}
+                        disabled={!searchWord}
                         onClick={handleButtonSearch}
                         className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl px-16 py-2"
                     >

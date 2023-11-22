@@ -50,10 +50,10 @@ const WordsList = () => {
                             </div>
 
                             <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
-                                <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-4xl">
+                                <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl">
                                     {word}
                                 </h1>
-                                <p className="text-gray-200 text-3xl mt-3">
+                                <p className="text-gray-200 text-2xl mt-3">
                                     {translation.toLowerCase()}
                                 </p>
                             </div>

@@ -16,7 +16,7 @@ const WordsList = () => {
             ) : (
                 <div className="grid grid-cols-5 gap-3">
                     {dataFb.map(({ id, picture, word, translation }) => (
-                        <div key={id} className="relative h-[270px] w-[270px]">
+                        <div key={id} className="relative h-[270px] w-[270px] group">
                             <img
                                 className="object-cover object-center rounded h-[270px] w-[270px]"
                                 src={picture}
@@ -29,7 +29,7 @@ const WordsList = () => {
                                     onClick={() => {
                                         deleteDocumentFireBase(id);
                                     }}
-                                    className="absolute top-2 right-2 inline-flex items-center inherit"
+                                    className="absolute top-2 right-2 inline-flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"

@@ -1,23 +1,16 @@
 import { collection, getDocs, deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { dataBase } from './firebaseConfig';
 
-export const addDataFireBase = async (response, word) => {
-    console.log(`responseData: `, response);
-    console.log(`word: `, word);
-
-    const { id, picture, translation } = response;
+export const addDataFireBase = async response => {
+    console.log(`response: `, response);
 
     try {
         const docRef = await doc(collection(dataBase, 'data'), Date.now().toString());
         setDoc(docRef, {
-            id,
-            picture,
-            translation,
-            word,
-            // id: response[0].id,
-            // picture: response[0].picture,
-            // translation: response[0].translation,
-            // word,
+            id: response[0].id,
+            picture: response[0].picture,
+            translation: response[0].translation,
+            word: response[0].word,
         });
         console.log('Document written with ID: ', docRef.id);
     } catch (e) {
@@ -25,18 +18,13 @@ export const addDataFireBase = async (response, word) => {
     }
 };
 
-export const getDataFireBase = async setData => {
-    await getDocs(collection(dataBase, 'data'))
-        .then(querySnapshot => {
-            const fbData = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-            setData(fbData);
-        })
-        .catch(err => console.log(`err: `, err));
-};
-
 export const deleteDocumentFireBase = async id => {
-    const dataDoc = doc(dataBase, 'data', id);
-    await deleteDoc(dataDoc);
+    try {
+        const dataDoc = doc(dataBase, 'data', id);
+        await deleteDoc(dataDoc);
+    } catch (error) {
+        console.log(`error: `, error);
+    }
 };
 
 export const clearCollectionFireBase = async () => {

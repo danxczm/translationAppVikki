@@ -1,14 +1,15 @@
 import { createContext, useEffect, useState, useRef } from 'react';
 import ReactToPrint from 'react-to-print';
 
-import { getDataFireBase } from './Firebase/firebaseActions';
 import { fetchMultipleData } from './utils/fetchMultipleData';
 
 import SearchBar from './SearchBar/SearchBar';
 import Counter from './Counter/Counter';
 import WordsList from './WordsList/WordsList';
 
-import './index.css';
+import { collection, getDocs } from 'firebase/firestore';
+import { dataBase } from './Firebase/firebaseConfig';
+import { addDataFireBase } from './Firebase/firebaseActions';
 
 export const ContextData = createContext();
 
@@ -17,30 +18,37 @@ const App = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [languageTranslation, setLanguageTranslation] = useState('uk');
     const [data, setData] = useState([]);
-    const [dataFb, setDataFb] = useState([]);
 
     const componentRef = useRef();
+
+    const getDataFireBase = async _ => {
+        const querySnapshot = await getDocs(collection(dataBase, 'data'));
+        const cloudFirestoreData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setData(cloudFirestoreData);
+    };
 
     const fetchData = async () => {
         try {
             const result = await fetchMultipleData(searchWord, languageTranslation);
-            setData(result);
+            data.push(...result);
+            addDataFireBase(result, searchWord);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
     useEffect(() => {
-        getDataFireBase(setDataFb);
+        getDataFireBase();
     }, []);
 
     const value = {
         languageTranslation,
         data,
-        dataFb,
+        setData,
         searchWord,
         setSearchWord,
         fetchData,
+        getDataFireBase,
     };
 
     return (
@@ -83,7 +91,6 @@ const App = () => {
 export default App;
 
 // ! plan:
-// - possability to save as pdf
 // - show loading (change style of the button to "loading")
 // - add translation language option
 // - rerender page when dataFb changes

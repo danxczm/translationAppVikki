@@ -5,17 +5,23 @@ import { ContextData } from '../App';
 const WordsList = () => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const { dataFb } = useContext(ContextData);
+    const { data, setData } = useContext(ContextData);
+
+    const deleteItem = id => {
+        deleteDocumentFireBase(id);
+        const filteredData = data.filter(item => item.id !== id);
+        setData(filteredData);
+    };
 
     return (
         <div>
-            {dataFb.length === 0 ? (
+            {data.length === 0 ? (
                 <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                     You haven't added any words yet
                 </h1>
             ) : (
                 <div className="grid grid-cols-5 gap-3">
-                    {dataFb.map(({ id, picture, word, translation }) => (
+                    {data.map(({ id, picture, word, translation }) => (
                         <div key={id} className="relative h-[270px] w-[270px] group">
                             <img
                                 className="object-cover object-center rounded h-[270px] w-[270px]"
@@ -27,7 +33,7 @@ const WordsList = () => {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        deleteDocumentFireBase(id);
+                                        deleteItem(id);
                                     }}
                                     className="absolute top-2 right-2 inline-flex items-center opacity-0 group-hover:opacity-100 transition-opacity"
                                 >

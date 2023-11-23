@@ -1,10 +1,8 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { deleteDocumentFireBase } from '../Firebase/firebaseActions';
 import { ContextData } from '../App';
 
 const WordsList = () => {
-    const [isLoading, setIsLoading] = useState(false);
-
     const { data, setData } = useContext(ContextData);
 
     const deleteItem = id => {
@@ -20,7 +18,7 @@ const WordsList = () => {
                     You haven't added any words yet
                 </h1>
             ) : (
-                <div className="grid grid-cols-5 gap-3">
+                <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-3">
                     {data.map(({ id, picture, word, translation }) => (
                         <div key={id} className="relative h-[270px] w-[270px] group">
                             <img

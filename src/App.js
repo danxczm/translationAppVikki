@@ -15,8 +15,7 @@ export const ContextData = createContext();
 
 const App = () => {
     const [searchWord, setSearchWord] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [languageTranslation, setLanguageTranslation] = useState('uk');
+    const [languageTranslation, setLanguageTranslation] = useState({ language: 'uk', icon: '🇺🇦' });
     const [data, setData] = useState([]);
 
     const componentRef = useRef();
@@ -29,7 +28,7 @@ const App = () => {
 
     const fetchData = async () => {
         try {
-            const result = await fetchMultipleData(searchWord, languageTranslation);
+            const result = await fetchMultipleData(searchWord, languageTranslation.language);
             data.push(result);
             addDataFireBase(result, searchWord);
         } catch (error) {
@@ -43,6 +42,7 @@ const App = () => {
 
     const value = {
         languageTranslation,
+        setLanguageTranslation,
         data,
         setData,
         searchWord,
@@ -92,5 +92,4 @@ export default App;
 
 // ! plan:
 // - show loading (change style of the button to "loading")
-// - add translation language option
 // - add description or example on each flashcard

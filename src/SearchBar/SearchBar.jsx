@@ -1,8 +1,24 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ContextData } from '../App';
 
 const SearchBar = () => {
-    const { searchWord, setSearchWord, fetchData, getDataFireBase } = useContext(ContextData);
+    const [open, setOpen] = useState(false);
+
+    const {
+        searchWord,
+        setSearchWord,
+        fetchData,
+        getDataFireBase,
+        languageTranslation,
+        setLanguageTranslation,
+    } = useContext(ContextData);
+
+    const languageOptions = [
+        { language: 'uk', icon: '🇺🇦' },
+        { language: 'ru', icon: '🪆' },
+        { language: 'ko', icon: '🇰🇷' },
+        // { language: 'en', icon: '🇬🇧' },
+    ];
 
     const handleInputChange = e => {
         setSearchWord(e.target.value);
@@ -17,6 +33,35 @@ const SearchBar = () => {
 
     return (
         <div className="flex justify-between py-5 bg-white">
+            <div className="w-32 rounded relative">
+                <div
+                    onClick={() => setOpen(!open)}
+                    className="px-5 rounded-md text-6xl hover:bg-blue-600 hover:text-white flex justify-center items-center cursor-pointer"
+                >
+                    {languageTranslation.icon}
+                </div>
+
+                {open ? (
+                    <ul className="bg-white absolute">
+                        {languageOptions
+                            .filter(item => item.language !== languageTranslation.language)
+                            .map(item => (
+                                <li
+                                    key={item.language}
+                                    className="flex justify-center items-center px-7 rounded-md text-6xl hover:bg-blue-600 hover:text-white cursor-pointer"
+                                    onClick={() => {
+                                        if (item.language !== languageTranslation.language) {
+                                            setLanguageTranslation(item);
+                                        }
+                                        setOpen(false);
+                                    }}
+                                >
+                                    {item.icon}
+                                </li>
+                            ))}
+                    </ul>
+                ) : null}
+            </div>
             <form className="w-full">
                 <label
                     htmlFor="default-search"

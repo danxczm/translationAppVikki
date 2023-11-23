@@ -21,7 +21,7 @@ const Counter = () => {
     };
 
     return (
-        <div className="flex items-center justify-between bg-white">
+        <div className="flex items-center justify-between bg-white ml-auto">
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-medium text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">

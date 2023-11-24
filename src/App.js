@@ -10,12 +10,15 @@ import WordsList from './WordsList/WordsList';
 import { collection, getDocs } from 'firebase/firestore';
 import { dataBase } from './Firebase/firebaseConfig';
 import { addDataFireBase } from './Firebase/firebaseActions';
+import Edit from './Edit/Edit';
 
 export const ContextData = createContext();
 
 const App = () => {
     const [searchWord, setSearchWord] = useState('');
     const [languageTranslation, setLanguageTranslation] = useState({ language: 'uk', icon: '🇺🇦' });
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedDataItem, setSelectedDataItem] = useState(null);
     const [data, setData] = useState([]);
 
     const componentRef = useRef();
@@ -36,6 +39,12 @@ const App = () => {
         }
     };
 
+    const handleEditItem = async id => {
+        const item = data.find(item => id === item.id);
+        setSelectedDataItem(item);
+        setIsEditing(true);
+    };
+
     useEffect(() => {
         getDataFireBase();
     }, []);
@@ -43,12 +52,16 @@ const App = () => {
     const value = {
         languageTranslation,
         setLanguageTranslation,
+        isEditing,
+        setIsEditing,
+        selectedDataItem,
         data,
         setData,
         searchWord,
         setSearchWord,
         fetchData,
         getDataFireBase,
+        handleEditItem,
     };
 
     return (
@@ -76,13 +89,19 @@ const App = () => {
                     )}
                     content={() => componentRef.current}
                 />
-                <div className="sticky top-0 z-10">
-                    <Counter />
-                    <SearchBar />
-                </div>
-                <div ref={componentRef}>
-                    <WordsList />
-                </div>
+                {isEditing ? (
+                    <Edit />
+                ) : (
+                    <>
+                        <div className="sticky top-0 z-10">
+                            <Counter />
+                            <SearchBar />
+                        </div>
+                        <div ref={componentRef}>
+                            <WordsList />
+                        </div>
+                    </>
+                )}
             </div>
         </ContextData.Provider>
     );

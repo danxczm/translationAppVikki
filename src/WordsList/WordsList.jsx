@@ -19,18 +19,18 @@ const WordsList = () => {
                 </h1>
             ) : (
                 <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-3">
-                    {data.map(({ id, picture, word, translation }) => (
-                        <div key={id} className="relative h-[270px] w-[270px] group">
+                    {data?.map(item => (
+                        <div key={item?.id} className="relative h-[270px] w-[270px] group">
                             <img
                                 className="object-cover object-center rounded h-[270px] w-[270px]"
-                                src={picture}
-                                alt={word}
+                                src={item?.picture}
+                                alt={item?.word}
                             />
                             {/* delete button */}
                             <button
                                 type="button"
                                 onClick={() => {
-                                    deleteItem(id);
+                                    deleteItem(item?.id);
                                 }}
                                 className="h-5 w-5 bg-white absolute top-2 right-2 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                             >
@@ -54,7 +54,7 @@ const WordsList = () => {
                             {/* edit button */}
                             <button
                                 type="button"
-                                onClick={() => handleEditItem(id)}
+                                onClick={() => handleEditItem(item?.id)}
                                 className="h-5 w-5 bg-white absolute top-2 left-2 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
                             >
                                 <svg
@@ -74,10 +74,10 @@ const WordsList = () => {
                             </button>
                             <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
                                 <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl">
-                                    {word}
+                                    {item?.word}
                                 </h1>
-                                <p className="text-gray-200 text-2xl mt-3">
-                                    {translation.toLowerCase()}
+                                <p className="text-gray-200 text-2xl mt-3 leading-6	">
+                                    {item?.translation?.toLowerCase()}
                                 </p>
                             </div>
                         </div>

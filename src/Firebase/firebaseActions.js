@@ -4,6 +4,8 @@ import { dataBase } from './firebaseConfig';
 export const addDataFireBase = async response => {
     const { word, translation, picture } = response;
 
+    console.log(`response: `, response);
+
     try {
         const docRef = await doc(collection(dataBase, 'data'), Date.now().toString());
         setDoc(docRef, {

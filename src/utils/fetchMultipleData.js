@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { addDataFireBase } from '../Firebase/firebaseActions';
 
 export const fetchMultipleData = async (searchQuery, translateTo) => {
     const translationOptions = {
@@ -36,9 +35,9 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
         const response = {
             word: searchQuery,
-            id: unsplashResponse.data.results[0].id,
-            translation: translationResponse.data[0].translations[0].text,
-            picture: unsplashResponse.data.results[0].urls.regular,
+            // id: unsplashResponse?.data?.results[0]?.id || Date.now().toString(),
+            translation: translationResponse?.data[0]?.translations[0]?.text,
+            picture: unsplashResponse?.data?.results[0]?.urls?.regular,
         };
 
         return response;

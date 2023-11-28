@@ -1,4 +1,7 @@
 import { createContext, useEffect, useState, useRef } from 'react';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { dataBase } from './Firebase/firebaseConfig';
+import { addDataFireBase } from './Firebase/firebaseActions';
 import ReactToPrint from 'react-to-print';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
@@ -6,10 +9,6 @@ import { fetchMultipleData } from './utils/fetchMultipleData';
 import SearchBar from './SearchBar/SearchBar';
 import Counter from './Counter/Counter';
 import WordsList from './WordsList/WordsList';
-
-import { collection, getDocs } from 'firebase/firestore';
-import { dataBase } from './Firebase/firebaseConfig';
-import { addDataFireBase } from './Firebase/firebaseActions';
 import Edit from './Edit/Edit';
 
 export const ContextData = createContext();
@@ -33,16 +32,45 @@ const App = () => {
         try {
             const result = await fetchMultipleData(searchWord, languageTranslation.language);
             data.push(result);
-            addDataFireBase(result, searchWord);
+            addDataFireBase(result);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
-    const handleEditItem = async id => {
+    const handleEditItem = id => {
         const item = data.find(item => id === item.id);
         setSelectedDataItem(item);
         setIsEditing(true);
+    };
+
+    // const addCollectionFireBase = async _ => {
+    //     try {
+    //         const docRef = await doc(collection(dataBase, 'collection'), Date.now().toString());
+    //         setDoc(docRef, { ...data });
+    //         console.log('Document written with ID: ', docRef.id);
+    //     } catch (e) {
+    //         console.error('Error adding document: ', e);
+    //     }
+    // };
+
+    // const getCollectionFireBase = async () => {
+    //     const querySnapshot = await getDocs(collection(dataBase, 'collection'));
+    //     const cloudFirestoreData = querySnapshot.docs.map(doc => ({ ...doc.data() }));
+    //     const newData = Object.values(cloudFirestoreData[0]);
+    //     setData(newData);
+
+    //     for (let i = 0; i < newData.length; i++) {
+    //         await addDataFireBase(newData[i]);
+    //     }
+    // };
+
+    const sortDataHandler = () => {
+        const sortedData = [...data].sort((a, b) => {
+            return a.word.localeCompare(b.word);
+        });
+
+        setData(sortedData);
     };
 
     useEffect(() => {
@@ -89,10 +117,23 @@ const App = () => {
                     )}
                     content={() => componentRef.current}
                 />
+                <buttom
+                    onClick={sortDataHandler}
+                    className=" px-5 ml-3 cursor-pointer text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl"
+                >
+                    sort
+                </buttom>
                 {isEditing ? (
                     <Edit />
                 ) : (
                     <>
+                        {/* <button type="button" onClick={addCollectionFireBase}>
+                            add -------
+                        </button> */}
+                        {/* <button type="button" onClick={getCollectionFireBase}>
+                            ------get
+                        </button> */}
+
                         <div className="sticky top-0 z-10">
                             <Counter />
                             <SearchBar />
@@ -110,5 +151,6 @@ const App = () => {
 export default App;
 
 // ! plan:
+// wip: save (and delete) collection of data for later needs
 // - show loading (change style of the button to "loading")
 // - add description or example on each flashcard

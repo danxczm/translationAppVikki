@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 
 import { ContextData } from '../App';
 import { dataBase } from '../Firebase/firebaseConfig';
@@ -24,7 +24,7 @@ const Edit = () => {
             picture: newPicture,
         };
 
-        await setDoc(doc(dataBase, 'data', id), {
+        await updateDoc(doc(dataBase, 'data', id), {
             ...editedData,
         });
 

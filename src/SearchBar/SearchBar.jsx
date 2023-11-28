@@ -14,10 +14,11 @@ const SearchBar = () => {
     } = useContext(ContextData);
 
     const languageOptions = [
-        { language: 'uk', icon: '🇺🇦' },
-        { language: 'ru', icon: '🪆' },
-        { language: 'ko', icon: '🇰🇷' },
-        { language: 'es', icon: '🇪🇸' },
+        { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
+        { language: 'en', icon: '🇬🇧', fullName: 'English' },
+        { language: 'ru', icon: '🪆', fullName: 'hru-hru' },
+        { language: 'ko', icon: '🇰🇷', fullName: 'Korean' },
+        { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
     ];
 
     const handleInputChange = e => {
@@ -93,7 +94,7 @@ const SearchBar = () => {
                         type="search"
                         id="default-search"
                         className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none"
-                        placeholder="Search..."
+                        placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />
 

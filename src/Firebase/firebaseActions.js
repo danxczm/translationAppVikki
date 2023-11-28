@@ -7,8 +7,8 @@ export const addDataFireBase = async response => {
     console.log(`response: `, response);
 
     try {
-        const docRef = await doc(collection(dataBase, 'data'), Date.now().toString());
-        setDoc(docRef, {
+        const docRef = doc(collection(dataBase, 'data'), Date.now().toString());
+        await setDoc(docRef, {
             picture,
             translation,
             word,

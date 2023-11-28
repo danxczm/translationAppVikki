@@ -35,9 +35,11 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
         const response = {
             word: searchQuery,
-            // id: unsplashResponse?.data?.results[0]?.id || Date.now().toString(),
+            id: unsplashResponse?.data?.results[0]?.id ?? Date.now(),
             translation: translationResponse?.data[0]?.translations[0]?.text,
-            picture: unsplashResponse?.data?.results[0]?.urls?.regular,
+            picture:
+                unsplashResponse?.data?.results[0]?.urls?.regular ??
+                'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg',
         };
 
         return response;

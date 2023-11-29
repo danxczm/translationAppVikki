@@ -7,7 +7,7 @@ import ReactToPrint from 'react-to-print';
 import { fetchMultipleData } from './utils/fetchMultipleData';
 
 import SearchBar from './SearchBar/SearchBar';
-import Counter from './Counter/Counter';
+import WordListFunctionality from './WordListFunctionality/WordListFunctionality';
 import WordsList from './WordsList/WordsList';
 import Edit from './Edit/Edit';
 
@@ -48,16 +48,6 @@ const App = () => {
         setIsEditing(true);
     };
 
-    // const addCollectionFireBase = async _ => {
-    //     try {
-    //         const docRef = await doc(collection(dataBase, 'collection'), Date.now().toString());
-    //         setDoc(docRef, { ...data });
-    //         console.log('Document written with ID: ', docRef.id);
-    //     } catch (e) {
-    //         console.error('Error adding document: ', e);
-    //     }
-    // };
-
     // const getCollectionFireBase = async () => {
     //     const querySnapshot = await getDocs(collection(dataBase, 'collection'));
     //     const cloudFirestoreData = querySnapshot.docs.map(doc => ({ ...doc.data() }));
@@ -68,14 +58,6 @@ const App = () => {
     //         await addDataFireBase(newData[i]);
     //     }
     // };
-
-    const sortDataHandler = () => {
-        const sortedData = [...data].sort((a, b) => {
-            return a.word.localeCompare(b.word);
-        });
-
-        setData(sortedData);
-    };
 
     useEffect(() => {
         getDataFireBase();
@@ -121,13 +103,6 @@ const App = () => {
                     )}
                     content={() => componentRef.current}
                 />
-                <button
-                    type="button"
-                    onClick={sortDataHandler}
-                    className=" px-5 ml-3 cursor-pointer text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xl"
-                >
-                    sort
-                </button>
                 {isEditing ? (
                     <Edit />
                 ) : (
@@ -140,7 +115,7 @@ const App = () => {
                         </button> */}
 
                         <div className="sticky top-0 z-10">
-                            <Counter />
+                            <WordListFunctionality />
                             <SearchBar />
                         </div>
                         <div ref={componentRef}>

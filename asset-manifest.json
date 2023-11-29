@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/translationAppVikki/static/css/main.ea064eb9.css",
-    "main.js": "/translationAppVikki/static/js/main.7624e19f.js",
+    "main.css": "/translationAppVikki/static/css/main.4f72790a.css",
+    "main.js": "/translationAppVikki/static/js/main.061824d0.js",
     "index.html": "/translationAppVikki/index.html",
-    "main.ea064eb9.css.map": "/translationAppVikki/static/css/main.ea064eb9.css.map",
-    "main.7624e19f.js.map": "/translationAppVikki/static/js/main.7624e19f.js.map"
+    "main.4f72790a.css.map": "/translationAppVikki/static/css/main.4f72790a.css.map",
+    "main.061824d0.js.map": "/translationAppVikki/static/js/main.061824d0.js.map"
   },
   "entrypoints": [
-    "static/css/main.ea064eb9.css",
-    "static/js/main.7624e19f.js"
+    "static/css/main.4f72790a.css",
+    "static/js/main.061824d0.js"
   ]
 }

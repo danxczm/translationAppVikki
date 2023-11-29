@@ -11,11 +11,13 @@ const WordListFunctionality = () => {
 
     const clearCollectionFireBase = async () => {
         try {
-            await getDocs(collection(dataBase, 'data')).then(querySnapshot =>
-                querySnapshot.docs.forEach(doc => deleteDoc(doc.ref))
-            );
+            const docs = await getDocs(collection(dataBase, 'data'));
+            const deletePromises = docs.docs.map(doc => deleteDoc(doc.ref));
+
+            await Promise.all(deletePromises);
+
             setData([]);
-            getDataFireBase();
+            await getDataFireBase();
             console.log('Collection cleared successfully.');
         } catch (error) {
             console.error('Error clearing collection: ', error);

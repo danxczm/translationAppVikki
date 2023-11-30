@@ -7,7 +7,7 @@ import { dataBase } from '../Firebase/firebaseConfig';
 import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 
 const WordListFunctionality = () => {
-    const { data, setData, getDataFireBase } = useContext(ContextData);
+    const { data, setData, getDataFireBase, getCollectionFireBase } = useContext(ContextData);
 
     const clearCollectionFireBase = async () => {
         try {
@@ -28,10 +28,12 @@ const WordListFunctionality = () => {
         try {
             const docRef = await doc(collection(dataBase, 'collection'), Date.now().toString());
             setDoc(docRef, { ...data });
-            console.log('Document written with ID: ', docRef.id);
+            console.log('Collection written with ID: ', docRef.id);
         } catch (e) {
-            console.error('Error adding document: ', e);
+            console.error('Error adding collection: ', e);
         }
+
+        getCollectionFireBase();
     };
 
     const sortCollectionHandler = () => {

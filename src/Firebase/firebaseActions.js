@@ -27,3 +27,12 @@ export const deleteDocumentFireBase = async id => {
         console.log(`error: `, error);
     }
 };
+
+export const deleteCollectionFireBase = async id => {
+    try {
+        const dataDoc = doc(dataBase, 'collection', id);
+        await deleteDoc(dataDoc);
+    } catch (error) {
+        console.log(`error: `, error);
+    }
+};

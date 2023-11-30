@@ -34,19 +34,24 @@ const App = () => {
         setData(cloudFirestoreData);
     };
 
-    const getCollectionFireBase = async () => {
+    const getCollectionFireBase = async index => {
         const querySnapshot = await getDocs(collection(dataBase, 'collection'));
         const cloudFirestoreCollection = querySnapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
         }));
-        console.log(`cloudFirestoreCollection: `, cloudFirestoreCollection);
-        // const newCollectionData = Object.values(cloudFirestoreData[0]);
+
         setDataCollection(cloudFirestoreCollection);
 
-        // for (let i = 0; i < newCollectionData.length; i++) {
-        //     await addDataFireBase(newCollectionData[i]);
-        // }
+        if (index !== undefined) {
+            const newCollectionData = Object.values(cloudFirestoreCollection[index]);
+            for (let i = 0; i < newCollectionData.length; i++) {
+                if (typeof newCollectionData[i] === 'string') return;
+                await addDataFireBase(newCollectionData[i]);
+
+                getDataFireBase();
+            }
+        }
     };
 
     const fetchData = async () => {

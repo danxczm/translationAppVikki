@@ -1,39 +1,39 @@
-import { collection, getDocs } from 'firebase/firestore';
-import { useContext, useEffect, useState } from 'react';
-import { dataBase } from '../Firebase/firebaseConfig';
-import { addDataFireBase, deleteCollectionFireBase } from '../Firebase/firebaseActions';
+import { useContext } from 'react';
+import { deleteCollectionFireBase } from '../Firebase/firebaseActions';
 import { ContextData } from '../App';
 
 const CollectionList = () => {
-    const { setData, dataCollection, setDataCollection } = useContext(ContextData);
+    const { getCollectionFireBase, dataCollection, setDataCollection } = useContext(ContextData);
 
-    const deleteCollection = id => {
+    const deleteCollection = (e, id) => {
+        e.stopPropagation();
         deleteCollectionFireBase(id);
         const filteredCollection = dataCollection.filter(item => item.id !== id);
         setDataCollection(filteredCollection);
     };
 
     return (
-        <div className="p-2 h-[100px]">
+        <div className="p-2 my-2 h-[100px] border-2 rounded-lg">
             {dataCollection.length !== 0 ? (
                 <ul className="flex [&>*:not(:first-child)]:ml-2">
                     {dataCollection.map((item, i) => {
                         return (
                             <li
                                 key={i}
-                                className="relative group flex justify-center items-center rounded-xl h-20 w-20 bg-blue-700 cursor-pointer"
+                                onClick={() => getCollectionFireBase(i)}
+                                className="relative flex justify-center items-center rounded-xl h-20 w-20 bg-blue-700 cursor-pointer"
                             >
                                 <p className="text-center text-white text-xs">Collection {i + 1}</p>
                                 <button
                                     type="button"
-                                    onClick={() => {
-                                        deleteCollection(item.id);
+                                    onClick={e => {
+                                        deleteCollection(e, item.id);
                                     }}
-                                    className="h-5 w-5 bg-white absolute top-2 right-2 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="h-4 w-4 bg-white absolute top-2 right-2 rounded-md flex items-center justify-center"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className="h-4 w-4"
+                                        className="h-3 w-3"
                                         viewBox="0 0 24 24"
                                         fill="white"
                                         strokeWidth="10"
@@ -52,8 +52,8 @@ const CollectionList = () => {
                     })}
                 </ul>
             ) : (
-                <div className="border-2 w-full h-full flex items-center justify-center">
-                    <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
+                <div className="w-full h-full flex items-center justify-center">
+                    <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-purple-800 to-blue-200">
                         Collection is empty
                     </h1>
                 </div>

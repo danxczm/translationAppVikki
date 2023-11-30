@@ -9,7 +9,7 @@ import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-ic
 const WordListFunctionality = () => {
     const { data, setData, getDataFireBase, getCollectionFireBase } = useContext(ContextData);
 
-    const clearCollectionFireBase = async () => {
+    const clearDataFireBase = async () => {
         try {
             const docs = await getDocs(collection(dataBase, 'data'));
             const deletePromises = docs.docs.map(doc => deleteDoc(doc.ref));
@@ -33,6 +33,7 @@ const WordListFunctionality = () => {
             console.error('Error adding collection: ', e);
         }
 
+        clearDataFireBase();
         getCollectionFireBase();
     };
 
@@ -64,8 +65,8 @@ const WordListFunctionality = () => {
                     >
                         <HiOutlineSave size="20px" />
                     </button>
-                    <div className="invisible group-hover:visible absolute">
-                        <p className="text-xs">Save collection.</p>
+                    <div className="p-1 bg-gray-500 rounded mt-1 invisible group-hover:visible absolute z-10">
+                        <p className="text-white text-center text-xs">Save collection.</p>
                     </div>
                 </div>
 
@@ -79,22 +80,22 @@ const WordListFunctionality = () => {
                     >
                         <HiOutlineSortDescending size="20px" />
                     </button>
-                    <div className="invisible group-hover:visible absolute">
-                        <p className="text-xs">Sort collection.</p>
+                    <div className="p-1 bg-gray-500 rounded mt-1 invisible group-hover:visible absolute z-10">
+                        <p className="text-white text-center text-xs">Sort collection.</p>
                     </div>
                 </div>
                 <div className="group relative">
                     <button
                         type="button"
                         disabled={data.length === 0}
-                        onClick={clearCollectionFireBase}
+                        onClick={clearDataFireBase}
                         title="Clear collection."
                         className="ml-1 items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-md disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
                         <HiOutlineTrash size="20px" />
                     </button>
-                    <div className="invisible group-hover:visible absolute">
-                        <p className="text-xs">Clear collection.</p>
+                    <div className="p-1 bg-gray-500 rounded mt-1 invisible group-hover:visible absolute z-10">
+                        <p className="text-white text-center text-xs">Clear collection.</p>
                     </div>
                 </div>
             </div>

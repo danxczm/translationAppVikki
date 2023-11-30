@@ -12,7 +12,7 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
         },
         headers: {
             'content-type': 'application/json',
-            'X-RapidAPI-Key': '32da4efdc7msh1edfa7d58e939cbp16f30fjsn436e11bb4d76',
+            'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
             'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
         },
         data: [

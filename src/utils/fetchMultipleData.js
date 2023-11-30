@@ -39,7 +39,7 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
             translation: translationResponse?.data[0]?.translations[0]?.text,
             picture:
                 unsplashResponse?.data?.results[0]?.urls?.regular ??
-                'https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg',
+                'https://i.ibb.co/2NVKDq2/1.png',
         };
 
         return response;

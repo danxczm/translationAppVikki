@@ -35,7 +35,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="flex justify-between py-5 bg-white">
+        <div className="flex justify-between py-3 bg-white">
             <div className="w-32 rounded relative">
                 <div
                     onClick={() => setOpen(!open)}

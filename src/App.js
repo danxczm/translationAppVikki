@@ -10,6 +10,7 @@ import SearchBar from './SearchBar/SearchBar';
 import WordListFunctionality from './WordListFunctionality/WordListFunctionality';
 import WordsList from './WordsList/WordsList';
 import Edit from './Edit/Edit';
+import CollectionList from './CollectionList/CollectionList';
 
 export const ContextData = createContext();
 
@@ -23,6 +24,7 @@ const App = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedDataItem, setSelectedDataItem] = useState(null);
     const [data, setData] = useState([]);
+    const [dataCollection, setDataCollection] = useState([]);
 
     const componentRef = useRef();
 
@@ -30,6 +32,26 @@ const App = () => {
         const querySnapshot = await getDocs(collection(dataBase, 'data'));
         const cloudFirestoreData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setData(cloudFirestoreData);
+    };
+
+    const getCollectionFireBase = async index => {
+        const querySnapshot = await getDocs(collection(dataBase, 'collection'));
+        const cloudFirestoreCollection = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+
+        setDataCollection(cloudFirestoreCollection);
+
+        if (index !== undefined) {
+            const newCollectionData = Object.values(cloudFirestoreCollection[index]);
+            for (let i = 0; i < newCollectionData.length; i++) {
+                if (typeof newCollectionData[i] === 'string') return;
+                await addDataFireBase(newCollectionData[i]);
+
+                getDataFireBase();
+            }
+        }
     };
 
     const fetchData = async () => {
@@ -48,19 +70,9 @@ const App = () => {
         setIsEditing(true);
     };
 
-    // const getCollectionFireBase = async () => {
-    //     const querySnapshot = await getDocs(collection(dataBase, 'collection'));
-    //     const cloudFirestoreData = querySnapshot.docs.map(doc => ({ ...doc.data() }));
-    //     const newData = Object.values(cloudFirestoreData[0]);
-    //     setData(newData);
-
-    //     for (let i = 0; i < newData.length; i++) {
-    //         await addDataFireBase(newData[i]);
-    //     }
-    // };
-
     useEffect(() => {
         getDataFireBase();
+        getCollectionFireBase();
     }, []);
 
     const value = {
@@ -76,6 +88,9 @@ const App = () => {
         fetchData,
         getDataFireBase,
         handleEditItem,
+        getCollectionFireBase,
+        dataCollection,
+        setDataCollection,
     };
 
     return (
@@ -107,13 +122,7 @@ const App = () => {
                     <Edit />
                 ) : (
                     <>
-                        {/* <button type="button" onClick={addCollectionFireBase}>
-                            add -------
-                        </button> */}
-                        {/* <button type="button" onClick={getCollectionFireBase}>
-                            ------get
-                        </button> */}
-
+                        <CollectionList />
                         <div className="sticky top-0 z-10">
                             <WordListFunctionality />
                             <SearchBar />

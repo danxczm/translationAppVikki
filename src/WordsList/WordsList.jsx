@@ -1,5 +1,10 @@
 import { useContext } from 'react';
 import { deleteDocumentFireBase } from '../Firebase/firebaseActions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { BiCopy } from 'react-icons/bi';
+
 import { ContextData } from '../App';
 
 const WordsList = () => {
@@ -11,8 +16,27 @@ const WordsList = () => {
         setData(filteredData);
     };
 
+    async function copyTextToClipboard(text) {
+        toast.success('The word is copied!', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+        });
+        if ('clipboard' in navigator) {
+            return await navigator.clipboard.writeText(text);
+        } else {
+            return document.execCommand('copy', true, text);
+        }
+    }
+
     return (
         <div>
+            <ToastContainer />
             {data.length === 0 ? (
                 <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                     You haven't added any words yet
@@ -73,9 +97,18 @@ const WordsList = () => {
                                 </svg>
                             </button>
                             <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
-                                <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl">
-                                    {item?.word}
-                                </h1>
+                                <div className="relative">
+                                    <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl">
+                                        {item?.word}
+                                    </h1>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyTextToClipboard(item?.word)}
+                                        className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 rounded-md flex items-center justify-center bg-white absolute -right-2 -top-1"
+                                    >
+                                        <BiCopy size="14px" />
+                                    </button>
+                                </div>
                                 <p className="text-gray-200 text-2xl mt-3 leading-6	">
                                     {item?.translation?.toLowerCase()}
                                 </p>

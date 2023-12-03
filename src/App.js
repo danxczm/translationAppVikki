@@ -138,8 +138,3 @@ const App = () => {
 };
 
 export default App;
-
-// ! plan:
-// wip: save (and delete) collection of data for later needs
-// - show loading (change style of the button to "loading")
-// - add description or example on each flashcard

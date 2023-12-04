@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { BiCopy } from 'react-icons/bi';
 
+import { toastInitialSettings } from '../utils/utils';
 import { ContextData } from '../App';
 
 const WordsList = () => {
@@ -17,16 +18,7 @@ const WordsList = () => {
     };
 
     async function copyTextToClipboard(text) {
-        toast.success('The word is copied!', {
-            position: 'top-right',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-        });
+        toast.success('The word is copied!', toastInitialSettings);
         if ('clipboard' in navigator) {
             return await navigator.clipboard.writeText(text);
         } else {

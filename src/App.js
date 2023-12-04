@@ -13,6 +13,7 @@ import WordListFunctionality from './WordListFunctionality/WordListFunctionality
 import WordsList from './WordsList/WordsList';
 import Edit from './Edit/Edit';
 import CollectionList from './CollectionList/CollectionList';
+import { toastInitialSettings } from './utils/utils';
 
 export const ContextData = createContext();
 
@@ -63,8 +64,8 @@ const App = () => {
 
             if (translation === word) {
                 return toast.error(
-                    `You cant translete ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`,
-                    { toastId: 'error' }
+                    `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`,
+                    toastInitialSettings
                 );
             }
 

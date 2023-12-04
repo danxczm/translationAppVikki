@@ -1,8 +1,10 @@
 import { createContext, useEffect, useState, useRef } from 'react';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { dataBase } from './Firebase/firebaseConfig';
 import { addDataFireBase } from './Firebase/firebaseActions';
 import ReactToPrint from 'react-to-print';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
 
@@ -57,6 +59,15 @@ const App = () => {
     const fetchData = async () => {
         try {
             const result = await fetchMultipleData(searchWord, languageTranslation.language);
+            const { translation, word } = result;
+
+            if (translation === word) {
+                return toast.error(
+                    `You cant translete ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`,
+                    { toastId: 'error' }
+                );
+            }
+
             data.push(result);
             addDataFireBase(result);
         } catch (error) {
@@ -95,6 +106,7 @@ const App = () => {
 
     return (
         <ContextData.Provider value={value}>
+            <ToastContainer />
             <div className="p-5">
                 <ReactToPrint
                     trigger={() => (

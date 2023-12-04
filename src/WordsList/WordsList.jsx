@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { deleteDocumentFireBase } from '../Firebase/firebaseActions';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { BiCopy } from 'react-icons/bi';
@@ -36,7 +36,6 @@ const WordsList = () => {
 
     return (
         <div>
-            <ToastContainer />
             {data.length === 0 ? (
                 <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                     You haven't added any words yet

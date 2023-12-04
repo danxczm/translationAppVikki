@@ -58,11 +58,11 @@ const WordListFunctionality = () => {
 
             <div className="ml-auto flex items-center justify-center bg-blue-600 rounded-md">
                 <div
-                    className={`pl-3 flex items-center transition-transform ${
+                    className={`flex items-center transition-transform ${
                         open ? 'translate-x-0' : 'translate-x-full hidden'
                     }`}
                 >
-                    <div className="flex items-center mr-2">
+                    <div className="flex items-center p-2 py-2 rounded-md hover:bg-blue-700">
                         <input
                             id="checkbox-1"
                             type="checkbox"
@@ -77,7 +77,7 @@ const WordListFunctionality = () => {
                         </label>
                     </div>
 
-                    <div className="flex items-center mr-2">
+                    <div className="flex items-center p-2 py-2 rounded-md hover:bg-blue-700">
                         <input
                             id="checkbox-2"
                             type="checkbox"
@@ -92,7 +92,7 @@ const WordListFunctionality = () => {
                         </label>
                     </div>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center p-2 py-2 rounded-md hover:bg-blue-700">
                         <input
                             id="checkbox-3"
                             type="checkbox"
@@ -107,7 +107,10 @@ const WordListFunctionality = () => {
                         </label>
                     </div>
                 </div>
-                <button className="px-1 cursor-pointer" onClick={() => setOpen(!open)}>
+                <button
+                    className="px-1 py-3 cursor-pointer rounded-md hover:bg-blue-700"
+                    onClick={() => setOpen(!open)}
+                >
                     {open ? (
                         <IoIosArrowForward size="20px" color="white" />
                     ) : (

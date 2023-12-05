@@ -5,15 +5,16 @@ import { addDataFireBase } from './Firebase/firebaseActions';
 import ReactToPrint from 'react-to-print';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BiSave } from 'react-icons/bi';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
+import { toastInitialSettings } from './utils/utils';
 
 import SearchBar from './SearchBar/SearchBar';
 import WordListFunctionality from './WordListFunctionality/WordListFunctionality';
 import WordsList from './WordsList/WordsList';
 import Edit from './Edit/Edit';
 import CollectionList from './CollectionList/CollectionList';
-import { toastInitialSettings } from './utils/utils';
 
 export const ContextData = createContext();
 
@@ -64,8 +65,7 @@ const App = () => {
 
             if (translation === word) {
                 return toast.error(
-                    `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`,
-                    toastInitialSettings
+                    `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`
                 );
             }
 
@@ -109,28 +109,6 @@ const App = () => {
         <ContextData.Provider value={value}>
             <ToastContainer />
             <div className="p-5">
-                <ReactToPrint
-                    trigger={() => (
-                        <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 mr-2"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                                />
-                            </svg>
-                            Save as PDF
-                        </button>
-                    )}
-                    content={() => componentRef.current}
-                />
                 {isEditing ? (
                     <Edit />
                 ) : (
@@ -145,6 +123,21 @@ const App = () => {
                         </div>
                     </>
                 )}
+                <ReactToPrint
+                    trigger={() =>
+                        data.length !== 0 ? (
+                            <div className="flex items-center justify-center mt-5 sticky bottom-5">
+                                <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
+                                    <BiSave size="20px" className="mr-2" />
+                                    <p className="font-semibold">Save as PDF</p>
+                                </button>
+                            </div>
+                        ) : (
+                            <></>
+                        )
+                    }
+                    content={() => componentRef.current}
+                />
             </div>
         </ContextData.Provider>
     );

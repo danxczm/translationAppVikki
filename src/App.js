@@ -65,8 +65,7 @@ const App = () => {
 
             if (translation === word) {
                 return toast.error(
-                    `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`,
-                    toastInitialSettings
+                    `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`
                 );
             }
 

@@ -57,7 +57,7 @@ const WordListFunctionality = () => {
             </p>
 
             <div className="ml-auto flex items-center justify-center bg-blue-600 rounded-md">
-                <div
+                {/* <div
                     className={`flex items-center transition-transform ${
                         open ? 'translate-x-0' : 'translate-x-full hidden'
                     }`}
@@ -116,7 +116,7 @@ const WordListFunctionality = () => {
                     ) : (
                         <IoIosArrowBack size="20px" color="white" />
                     )}
-                </button>
+                </button> */}
                 <div className="group relative">
                     <button
                         type="button"

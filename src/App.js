@@ -121,23 +121,23 @@ const App = () => {
                         <div ref={componentRef}>
                             <WordsList />
                         </div>
+                        <ReactToPrint
+                            trigger={() =>
+                                data.length !== 0 ? (
+                                    <div className="flex items-center justify-center mt-5 sticky bottom-5">
+                                        <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
+                                            <BiSave size="20px" className="mr-2" />
+                                            <p className="font-semibold">Save as PDF</p>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <></>
+                                )
+                            }
+                            content={() => componentRef.current}
+                        />
                     </>
                 )}
-                <ReactToPrint
-                    trigger={() =>
-                        data.length !== 0 ? (
-                            <div className="flex items-center justify-center mt-5 sticky bottom-5">
-                                <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-                                    <BiSave size="20px" className="mr-2" />
-                                    <p className="font-semibold">Save as PDF</p>
-                                </button>
-                            </div>
-                        ) : (
-                            <></>
-                        )
-                    }
-                    content={() => componentRef.current}
-                />
             </div>
         </ContextData.Provider>
     );

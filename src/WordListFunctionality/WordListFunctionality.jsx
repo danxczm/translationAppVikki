@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { ContextData } from '../App';
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { dataBase } from '../Firebase/firebaseConfig';
+import Swal from 'sweetalert2';
 
 import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -23,6 +24,21 @@ const WordListFunctionality = () => {
             console.log('Collection cleared successfully.');
         } catch (error) {
             console.error('Error clearing collection: ', error);
+        }
+    };
+
+    const clearDataFunction = async _ => {
+        const result = await Swal.fire({
+            icon: 'warning',
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            showCancelButton: true,
+            confirmButtonText: 'Yes, clear the collection!',
+            cancelButtonText: 'No, cancel!',
+        });
+
+        if (result.value) {
+            clearDataFireBase();
         }
     };
 
@@ -150,7 +166,7 @@ const WordListFunctionality = () => {
                     <button
                         type="button"
                         disabled={data.length === 0}
-                        onClick={clearDataFireBase}
+                        onClick={clearDataFunction}
                         title="Clear collection."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-r-md disabled:bg-gray-300  disabled:cursor-not-allowed"
                     >

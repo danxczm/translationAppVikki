@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { BiSave } from 'react-icons/bi';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
-import { toastInitialSettings } from './utils/utils';
 
 import SearchBar from './SearchBar/SearchBar';
 import WordListFunctionality from './WordListFunctionality/WordListFunctionality';

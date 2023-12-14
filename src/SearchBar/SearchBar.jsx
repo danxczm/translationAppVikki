@@ -5,7 +5,6 @@ import { HiOutlineSearch } from 'react-icons/hi';
 
 const SearchBar = () => {
     const [open, setOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     const {
         searchWord,
@@ -14,6 +13,8 @@ const SearchBar = () => {
         getDataFireBase,
         languageTranslation,
         setLanguageTranslation,
+        isLoading,
+        setIsLoading,
     } = useContext(ContextData);
 
     const languageOptions = [

@@ -28,6 +28,7 @@ const App = () => {
     const [selectedDataItem, setSelectedDataItem] = useState(null);
     const [data, setData] = useState([]);
     const [dataCollection, setDataCollection] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const componentRef = useRef();
 
@@ -82,7 +83,7 @@ const App = () => {
     };
 
     useEffect(() => {
-        getDataFireBase();
+        // getDataFireBase();
         getCollectionFireBase();
     }, []);
 
@@ -102,6 +103,8 @@ const App = () => {
         getCollectionFireBase,
         dataCollection,
         setDataCollection,
+        isLoading,
+        setIsLoading,
     };
 
     return (

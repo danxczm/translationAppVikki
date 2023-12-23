@@ -16,7 +16,7 @@ const CollectionList = () => {
     };
 
     return (
-        <div className="p-2 my-2 h-[100px] border-2 rounded-lg">
+        <div className="h-[100px] border-2 rounded-lg">
             {dataCollection.length !== 0 ? (
                 <ul className="flex [&>*:not(:first-child)]:ml-2">
                     {dataCollection.map((item, i) => {

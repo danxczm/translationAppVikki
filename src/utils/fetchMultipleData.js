@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const translateText = async (text, toLanguage) => {
+const translateText = async (text, toLanguage = 'en') => {
     const translationOptions = {
         method: 'POST',
         url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
@@ -31,37 +31,6 @@ const translateText = async (text, toLanguage) => {
     }
 };
 
-const translateTextToEng = async text => {
-    const translationOptions = {
-        method: 'POST',
-        url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
-        params: {
-            'to[0]': 'en',
-            'api-version': '3.0',
-            profanityAction: 'NoAction',
-            textType: 'plain',
-        },
-        headers: {
-            'content-type': 'application/json',
-            'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-            'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
-        },
-        data: [
-            {
-                Text: text,
-            },
-        ],
-    };
-
-    try {
-        const response = await axios.request(translationOptions);
-        return response?.data[0]?.translations[0]?.text;
-    } catch (error) {
-        console.error('translateTextEng', error);
-        return null;
-    }
-};
-
 const fetchUnsplashPhoto = async searchQuery => {
     const unsplashOptions = {
         method: 'GET',
@@ -80,7 +49,7 @@ const fetchUnsplashPhoto = async searchQuery => {
 export const fetchMultipleData = async (searchQuery, translateTo) => {
     try {
         const translation = await translateText(searchQuery, translateTo);
-        const getPictureInEng = await translateTextToEng(searchQuery);
+        const getPictureInEng = await translateText(searchQuery);
         const unsplashPhoto = await fetchUnsplashPhoto(getPictureInEng);
 
         const response = {

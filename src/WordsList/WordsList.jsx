@@ -42,8 +42,7 @@ const WordsList = () => {
                         {data?.map(item => (
                             <li
                                 key={item?.id}
-                                // className="relative group h-[250px] w-[250px] overflow-hidden rounded-lg"
-                                className="relative group overflow-hidden rounded-lg shadow-xl hover:shadow-sky-600"
+                                className="relative group overflow-hidden rounded-lg shadow-xl transition duration-200 hover:shadow-blue-600"
                             >
                                 <img
                                     loading="lazy"

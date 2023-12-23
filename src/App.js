@@ -2,14 +2,13 @@ import { createContext, useEffect, useState, useRef } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { dataBase } from './Firebase/firebaseConfig';
 import { addDataFireBase } from './Firebase/firebaseActions';
-import ReactToPrint from 'react-to-print';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BiSave } from 'react-icons/bi';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
 import { toastInitialSettings } from './utils/utils';
 
+import AppContainer from './AppContainer/AppContainer';
 import SearchBar from './SearchBar/SearchBar';
 import WordListFunctionality from './WordListFunctionality/WordListFunctionality';
 import WordsList from './WordsList/WordsList';
@@ -29,8 +28,7 @@ const App = () => {
     const [selectedDataItem, setSelectedDataItem] = useState(null);
     const [data, setData] = useState([]);
     const [dataCollection, setDataCollection] = useState([]);
-
-    const componentRef = useRef();
+    const [isLoading, setIsLoading] = useState(false);
 
     const getDataFireBase = async _ => {
         const querySnapshot = await getDocs(collection(dataBase, 'data'));
@@ -103,12 +101,14 @@ const App = () => {
         getCollectionFireBase,
         dataCollection,
         setDataCollection,
+        isLoading,
+        setIsLoading,
     };
 
     return (
         <ContextData.Provider value={value}>
             <ToastContainer />
-            <div className="p-5">
+            <AppContainer>
                 {isEditing ? (
                     <Edit />
                 ) : (
@@ -118,27 +118,10 @@ const App = () => {
                             <WordListFunctionality />
                             <SearchBar />
                         </div>
-                        <div ref={componentRef}>
-                            <WordsList />
-                        </div>
-                        <ReactToPrint
-                            trigger={() =>
-                                data.length !== 0 ? (
-                                    <div className="flex items-center justify-center mt-5 sticky bottom-5">
-                                        <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-                                            <BiSave size="20px" className="mr-2" />
-                                            <p className="font-semibold">Save as PDF</p>
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <></>
-                                )
-                            }
-                            content={() => componentRef.current}
-                        />
+                        <WordsList />
                     </>
                 )}
-            </div>
+            </AppContainer>
         </ContextData.Provider>
     );
 };

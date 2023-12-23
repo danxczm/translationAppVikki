@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { BiCopy, BiSave } from 'react-icons/bi';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { LiaGoogle } from 'react-icons/lia';
 
 import { toastInitialSettings } from '../utils/utils';
 import { ContextData } from '../App';
@@ -71,16 +72,21 @@ const WordsList = () => {
                                 </button>
                                 <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
                                     <div className="relative">
-                                        <h1 className="p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl">
+                                        <h1
+                                            onClick={() => copyTextToClipboard(item?.word)}
+                                            title="Click to copy."
+                                            className="cursor-pointer p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl"
+                                        >
                                             {item?.word}
                                         </h1>
-                                        <button
-                                            type="button"
-                                            onClick={() => copyTextToClipboard(item?.word)}
-                                            className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity h-5 w-5 rounded-md flex items-center justify-center bg-white absolute -right-2 -top-1"
+                                        <a
+                                            rel="noreferrer"
+                                            target="_blank"
+                                            href={`https://www.google.com.ua/search?q=${item.word}`}
+                                            className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 rounded-md flex items-center justify-center absolute right-2 top-1.5"
                                         >
-                                            <BiCopy size="14px" />
-                                        </button>
+                                            <LiaGoogle size="22px" color="white" />
+                                        </a>
                                     </div>
                                     <p className="text-gray-200 text-2xl mt-3 leading-6	">
                                         {item?.translation?.toLowerCase()}

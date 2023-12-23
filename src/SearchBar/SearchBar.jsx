@@ -81,11 +81,13 @@ const SearchBar = () => {
                         <HiOutlineSearch size="20px" />
                     </div>
                     <input
+                        autoComplete="false"
                         value={searchWord}
+                        disabled={isLoading}
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-white"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />
@@ -102,7 +104,7 @@ const SearchBar = () => {
                         <button
                             disabled
                             type="button"
-                            className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center w-[132px] h-[44px]"
+                            className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center inline-flex items-center w-[132px] h-[44px]"
                         >
                             <svg
                                 aria-hidden="true"

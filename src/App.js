@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { fetchMultipleData } from './utils/fetchMultipleData';
+import { toastInitialSettings } from './utils/utils';
 
 import AppContainer from './AppContainer/AppContainer';
 import SearchBar from './SearchBar/SearchBar';

@@ -5,16 +5,32 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { MdArrowDownward } from 'react-icons/md';
 
 import { ContextData } from '../App';
+import Swal from 'sweetalert2';
 
 const CollectionList = () => {
     const { getCollectionFireBase, dataCollection, setDataCollection } = useContext(ContextData);
     const [showCollection, setShowCollection] = useState(false);
 
     const deleteCollection = (e, id) => {
-        e.stopPropagation();
         deleteCollectionFireBase(id);
         const filteredCollection = dataCollection.filter(item => item.id !== id);
         setDataCollection(filteredCollection);
+    };
+
+    const deleteCollectionFunction = async (e, id, index) => {
+        e.stopPropagation();
+        const result = await Swal.fire({
+            icon: 'warning',
+            title: 'Are you sure?',
+            text: `You delete Collection ${index + 1}!`,
+            showCancelButton: true,
+            confirmButtonText: `Yes, delete Collection ${index + 1}!`,
+            cancelButtonText: 'No, cancel!',
+        });
+
+        if (result.value) {
+            deleteCollection(e, id);
+        }
     };
 
     return (
@@ -59,7 +75,7 @@ const CollectionList = () => {
                                     <button
                                         type="button"
                                         onClick={e => {
-                                            deleteCollection(e, item.id);
+                                            deleteCollectionFunction(e, item.id, i);
                                         }}
                                         className="h-5 w-16 bg-white hover:bg-blue-300 absolute top-1 rounded-full flex items-center justify-center"
                                     >

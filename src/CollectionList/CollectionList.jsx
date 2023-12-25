@@ -20,8 +20,8 @@ const CollectionList = () => {
     return (
         <div className="relative">
             <div
-                className={`h-10 absolute z-50 -translate-y-${
-                    showCollection ? 10 : 14
+                className={`h-10 absolute z-50 ${
+                    showCollection ? '-translate-y-10' : '-translate-y-14'
                 } hover:-translate-y-10 duration-500 left-2/4 `}
             >
                 <button
@@ -31,14 +31,14 @@ const CollectionList = () => {
                 >
                     <MdArrowDownward
                         size="20px"
-                        className={`rotate-${showCollection ? 180 : 0} duration-500`}
+                        className={`${showCollection ? 'rotate-180' : 'rotate-0'} duration-500`}
                         style={{ marginTop: '8px' }}
                     />
                 </button>
             </div>
             <div
-                className={`absolute flex items-center -translate-y-${
-                    showCollection ? 0 : 60
+                className={`absolute flex items-center ${
+                    showCollection ? '-translate-y-0' : '-translate-y-60'
                 } z-20 h-[80px] w-full bg-white border-2 rounded-lg duration-500`}
             >
                 {dataCollection.length !== 0 ? (

@@ -1,5 +1,5 @@
 ### plan:
 
--   show loading (change style of the button to "loading" / sceleton)
+-   move app to Redux Toolkit
 -   options to show on option click - translation - definition - example
 -   try out Deepl API

@@ -3,7 +3,8 @@ import { deleteDocumentFireBase } from '../Firebase/firebaseActions';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { BiCopy, BiSave } from 'react-icons/bi';
+import { BiSave } from 'react-icons/bi';
+import { LuBookMarked } from 'react-icons/lu';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { LiaGoogle } from 'react-icons/lia';
 
@@ -71,7 +72,7 @@ const WordsList = () => {
                                     <AiOutlineEdit />
                                 </button>
                                 <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
-                                    <div className="relative">
+                                    <div className="relative flex">
                                         <h1
                                             onClick={() => copyTextToClipboard(item?.word)}
                                             title="Click to copy."
@@ -82,10 +83,18 @@ const WordsList = () => {
                                         <a
                                             rel="noreferrer"
                                             target="_blank"
-                                            href={`https://www.google.com.ua/search?q=${item.word}`}
-                                            className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 rounded-md flex items-center justify-center absolute right-2 top-1.5"
+                                            href={`https://dictionary.cambridge.org/dictionary/english/${item.word}`}
+                                            className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md flex items-center justify-center absolute right-0 top-8 hover:bg-blue-300"
                                         >
-                                            <LiaGoogle size="22px" color="white" />
+                                            <LuBookMarked size="20px" color="white" />
+                                        </a>
+                                        <a
+                                            rel="noreferrer"
+                                            target="_blank"
+                                            href={`https://www.google.com.ua/search?q=${item.word}`}
+                                            className="cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md flex items-center justify-center absolute right-0 top-1.5 hover:bg-blue-300"
+                                        >
+                                            <LiaGoogle size="20px" color="white" />
                                         </a>
                                     </div>
                                     <p className="text-gray-200 text-2xl mt-3 leading-6	">

@@ -1,7 +1,8 @@
 import { useContext, useRef } from 'react';
-import { deleteDocumentFireBase } from '../Firebase/firebaseActions';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { useSelector, useDispatch } from 'react-redux';
 
 import { BiSave } from 'react-icons/bi';
 import { LuBookMarked } from 'react-icons/lu';
@@ -11,16 +12,24 @@ import { LiaGoogle } from 'react-icons/lia';
 import { toastInitialSettings } from '../utils/utils';
 import { ContextData } from '../App';
 import ReactToPrint from 'react-to-print';
+import { deleteCardThunk, getCardsThunk } from '../redux/features/cards/Thunk';
+import { Hourglass } from 'react-loader-spinner';
+import * as selector from '../redux/features/cards/Selector';
 
 const WordsList = () => {
-    const { data, setData, handleEditItem } = useContext(ContextData);
+    const { handleEditItem } = useContext(ContextData);
+
+    const { entities: data, status } = useSelector(selector.selectCards);
+
+    console.log(`status: `, status);
+
+    const dispatch = useDispatch();
 
     const componentRef = useRef();
 
     const deleteItem = id => {
-        deleteDocumentFireBase(id);
-        const filteredData = data.filter(item => item.id !== id);
-        setData(filteredData);
+        dispatch(deleteCardThunk(id));
+        // dispatch(getCardsThunk());
     };
 
     async function copyTextToClipboard(text) {
@@ -34,7 +43,7 @@ const WordsList = () => {
 
     return (
         <>
-            <div ref={componentRef}>
+            <div className="bg-background-blue" ref={componentRef}>
                 {data.length === 0 ? (
                     <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                         You haven't added any words yet

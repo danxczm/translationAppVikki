@@ -13,7 +13,7 @@ const SearchBar = () => {
         searchWord,
         setSearchWord,
         fetchData,
-        getDataFireBase,
+        // getDataFireBase,
         languageTranslation,
         setLanguageTranslation,
         isLoading,
@@ -36,7 +36,7 @@ const SearchBar = () => {
         setIsLoading(true);
         e.preventDefault();
         await fetchData();
-        await getDataFireBase();
+        // await getDataFireBase();
         setSearchWord('');
         setIsLoading(false);
 
@@ -46,7 +46,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="flex justify-between py-3 bg-white">
+        <div className="flex justify-between py-3 bg-background-blue">
             <div className="w-32 rounded relative">
                 <div
                     onClick={() => setOpen(!open)}
@@ -96,7 +96,7 @@ const SearchBar = () => {
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-white"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none bg-background-blue disabled:bg-background-blue"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />

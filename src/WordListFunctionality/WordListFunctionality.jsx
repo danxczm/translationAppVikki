@@ -1,16 +1,20 @@
 import { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { ContextData } from '../App';
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { dataBase } from '../Firebase/firebaseConfig';
 import Swal from 'sweetalert2';
+import * as selector from '../redux/features/cards/Selector';
 
 import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const WordListFunctionality = () => {
     const [open, setOpen] = useState(false);
-    const { data, setData, getDataFireBase, getCollectionFireBase } = useContext(ContextData);
+    const { setData } = useContext(ContextData);
+
+    const { entities: data } = useSelector(selector.selectCards);
 
     const clearDataFireBase = async () => {
         try {
@@ -20,7 +24,7 @@ const WordListFunctionality = () => {
             await Promise.all(deletePromises);
 
             setData([]);
-            await getDataFireBase();
+            // await getDataFireBase();
             console.log('Collection cleared successfully.');
         } catch (error) {
             console.error('Error clearing collection: ', error);
@@ -52,7 +56,7 @@ const WordListFunctionality = () => {
         }
 
         clearDataFireBase();
-        getCollectionFireBase();
+        // getCollectionFireBase();
     };
 
     const sortCollectionHandler = () => {
@@ -64,7 +68,7 @@ const WordListFunctionality = () => {
     };
 
     return (
-        <div className="flex items-center bg-white ml-auto py-2">
+        <div className="flex items-center bg-background-blue ml-auto py-2">
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-semibold text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">

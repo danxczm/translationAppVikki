@@ -6,8 +6,7 @@ import { ContextData } from '../App';
 import { dataBase } from '../Firebase/firebaseConfig';
 
 const Edit = () => {
-    const { data, setData, setIsEditing, selectedDataItem, getDataFireBase } =
-        useContext(ContextData);
+    const { data, setData, setIsEditing, selectedDataItem } = useContext(ContextData);
 
     const id = selectedDataItem.id;
 
@@ -30,7 +29,7 @@ const Edit = () => {
 
         setData(data);
         setIsEditing(false);
-        getDataFireBase();
+        // getDataFireBase();
     };
 
     return (

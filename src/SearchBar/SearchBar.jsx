@@ -1,24 +1,23 @@
-import { useContext, useRef, useState } from 'react';
-import { ContextData } from '../App';
+import { useRef, useState } from 'react';
+
+import { fetchMultipleData } from '../utils/fetchMultipleData';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useAddFlashCardMutation } from '../services/cardsCloudFirestoreApi';
 
 const SearchBar = () => {
+    const [searchWord, setSearchWord] = useState('');
+    const [languageTranslation, setLanguageTranslation] = useState({
+        language: 'uk',
+        icon: '🇺🇦',
+        fullName: 'Ukrainian',
+    });
     const [open, setOpen] = useState(false);
 
-    const inputRef = useRef(null);
+    const [addCard, { isLoading }] = useAddFlashCardMutation();
 
-    const {
-        searchWord,
-        setSearchWord,
-        fetchData,
-        getDataFireBase,
-        languageTranslation,
-        setLanguageTranslation,
-        isLoading,
-        setIsLoading,
-    } = useContext(ContextData);
+    const inputRef = useRef(null);
 
     const languageOptions = [
         { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
@@ -28,17 +27,32 @@ const SearchBar = () => {
         { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
     ];
 
+    const getCardInformation = async () => {
+        try {
+            const result = await fetchMultipleData(searchWord, languageTranslation.language);
+            // const { translation, word } = result;
+
+            // if (translation === word) {
+            //     return toast.error(
+            //         `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`
+            //     );
+            // }
+
+            addCard(result);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     const handleInputChange = e => {
         setSearchWord(e.target.value);
     };
 
-    const handleButtonSearch = async e => {
-        setIsLoading(true);
+    const handleSubmitButton = async e => {
         e.preventDefault();
-        await fetchData();
-        await getDataFireBase();
+        await getCardInformation();
+        // await getDataFireBase();
         setSearchWord('');
-        setIsLoading(false);
 
         setTimeout(() => {
             inputRef.current?.focus();
@@ -46,7 +60,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="flex justify-between py-3 bg-white">
+        <div className="flex justify-between py-3 bg-background-blue">
             <div className="w-32 rounded relative">
                 <div
                     onClick={() => setOpen(!open)}
@@ -96,7 +110,7 @@ const SearchBar = () => {
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-white"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none bg-background-blue disabled:bg-background-blue"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />
@@ -104,7 +118,7 @@ const SearchBar = () => {
                     {!isLoading ? (
                         <button
                             disabled={!searchWord}
-                            onClick={handleButtonSearch}
+                            onClick={handleSubmitButton}
                             className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-2xl w-[132px] h-[44px]"
                         >
                             Add

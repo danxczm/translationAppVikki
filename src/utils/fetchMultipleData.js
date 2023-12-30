@@ -54,7 +54,6 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
         const response = {
             word: searchQuery,
-            id: Date.now(),
             translation,
             picture: unsplashPhoto,
         };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import { deleteCollectionFireBase } from '../Firebase/firebaseActions';
 
@@ -9,7 +9,8 @@ import { MdArrowDownward } from 'react-icons/md';
 import Swal from 'sweetalert2';
 
 const CollectionList = () => {
-    const { collection: cardsCollection } = useSelector(state => state.cards);
+    const cardsCollection = [];
+    // const { collection: cardsCollection } = useSelector(state => state.cards);
     const [showCollection, setShowCollection] = useState(false);
 
     const deleteCollection = (e, id) => {

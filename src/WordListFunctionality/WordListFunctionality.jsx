@@ -1,20 +1,20 @@
 import { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import { ContextData } from '../App';
 import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 import { dataBase } from '../Firebase/firebaseConfig';
 import Swal from 'sweetalert2';
-import * as selector from '../redux/features/cards/Selector';
+// import * as selector from '../redux/features/cards/Selector';
 
 import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const WordListFunctionality = () => {
     const [open, setOpen] = useState(false);
-    const { setData } = useContext(ContextData);
+    const { data, setData } = useContext(ContextData);
 
-    const { entities: data } = useSelector(selector.selectCards);
+    // const { entities: data } = useSelector(selector.selectCards);
 
     const clearDataFireBase = async () => {
         try {

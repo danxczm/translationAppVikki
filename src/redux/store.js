@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import cardsReducer from './features/cards/Slice';
+import { flashCardsApi } from '../services/cardsCloudFirestoreApi';
+import { setupListeners } from '@reduxjs/toolkit/query';
 
 export const store = configureStore({
     reducer: {
-        cards: cardsReducer,
+        [flashCardsApi.reducerPath]: flashCardsApi.reducer,
     },
+    middleware: getDefaultMiddleware => getDefaultMiddleware().concat(flashCardsApi.middleware),
 });
+
+setupListeners(store.dispatch);

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 
-import { doc, updateDoc } from 'firebase/firestore';
-
 import { ContextData } from '../App';
-import { dataBase } from '../Firebase/firebaseConfig';
+import { useUpdateCardMutation } from '../services/cardsCloudFirestoreApi';
 
 const Edit = () => {
-    const { data, setData, setIsEditing, selectedDataItem } = useContext(ContextData);
+    const { setIsEditing, selectedDataItem } = useContext(ContextData);
+    const [updateCard] = useUpdateCardMutation();
 
     const id = selectedDataItem.id;
 
@@ -23,13 +22,8 @@ const Edit = () => {
             picture: newPicture,
         };
 
-        await updateDoc(doc(dataBase, 'data', id), {
-            ...editedData,
-        });
-
-        setData(data);
+        await updateCard({ id, editedData });
         setIsEditing(false);
-        // getDataFireBase();
     };
 
     return (

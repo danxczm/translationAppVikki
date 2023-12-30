@@ -1,24 +1,23 @@
-import { useContext, useRef, useState } from 'react';
-import { ContextData } from '../App';
+import { useRef, useState } from 'react';
+
+import { fetchMultipleData } from '../utils/fetchMultipleData';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useAddFlashCardMutation } from '../services/cardsCloudFirestoreApi';
 
 const SearchBar = () => {
+    const [searchWord, setSearchWord] = useState('');
+    const [languageTranslation, setLanguageTranslation] = useState({
+        language: 'uk',
+        icon: '🇺🇦',
+        fullName: 'Ukrainian',
+    });
     const [open, setOpen] = useState(false);
 
-    const inputRef = useRef(null);
+    const [addCard, { isLoading }] = useAddFlashCardMutation();
 
-    const {
-        searchWord,
-        setSearchWord,
-        fetchData,
-        // getDataFireBase,
-        languageTranslation,
-        setLanguageTranslation,
-        isLoading,
-        setIsLoading,
-    } = useContext(ContextData);
+    const inputRef = useRef(null);
 
     const languageOptions = [
         { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
@@ -28,17 +27,32 @@ const SearchBar = () => {
         { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
     ];
 
+    const getCardInformation = async () => {
+        try {
+            const result = await fetchMultipleData(searchWord, languageTranslation.language);
+            // const { translation, word } = result;
+
+            // if (translation === word) {
+            //     return toast.error(
+            //         `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`
+            //     );
+            // }
+
+            addCard(result);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     const handleInputChange = e => {
         setSearchWord(e.target.value);
     };
 
-    const handleButtonSearch = async e => {
-        setIsLoading(true);
+    const handleSubmitButton = async e => {
         e.preventDefault();
-        await fetchData();
+        await getCardInformation();
         // await getDataFireBase();
         setSearchWord('');
-        setIsLoading(false);
 
         setTimeout(() => {
             inputRef.current?.focus();
@@ -104,7 +118,7 @@ const SearchBar = () => {
                     {!isLoading ? (
                         <button
                             disabled={!searchWord}
-                            onClick={handleButtonSearch}
+                            onClick={handleSubmitButton}
                             className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-2xl w-[132px] h-[44px]"
                         >
                             Add

@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 
 import { ContextData } from '../App';
-import { useUpdateCardMutation } from '../services/cardsCloudFirestoreApi';
+import { useUpdateFlashCardMutation } from '../services/cardsCloudFirestoreApi';
 
 const Edit = () => {
     const { setIsEditing, selectedDataItem } = useContext(ContextData);
-    const [updateCard] = useUpdateCardMutation();
+    const [updateCard] = useUpdateFlashCardMutation();
 
     const id = selectedDataItem.id;
 

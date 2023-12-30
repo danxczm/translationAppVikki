@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,14 +12,35 @@ import { LiaGoogle } from 'react-icons/lia';
 import { toastInitialSettings } from '../utils/utils';
 import { ContextData } from '../App';
 import ReactToPrint from 'react-to-print';
-import { useDeleteCardMutation, useGetFlashCardsQuery } from '../services/cardsCloudFirestoreApi';
+import {
+    useDeleteFlashCardMutation,
+    useGetFlashCardsQuery,
+} from '../services/cardsCloudFirestoreApi';
+// import { useSelector } from 'react-redux';
 // import { deleteCardThunk, getCardsThunk } from '../redux/features/cards/Thunk';
 // import * as selector from '../redux/features/cards/Selector';
 
 const WordsList = () => {
+    const [flashCards, setFlashCards] = useState([]);
     const { setIsEditing, setSelectedDataItem } = useContext(ContextData);
+
     const { data } = useGetFlashCardsQuery();
-    const [deleteCard] = useDeleteCardMutation();
+    const [deleteCard] = useDeleteFlashCardMutation();
+
+    useEffect(() => {
+        setFlashCards(data);
+    }, [data]);
+
+    console.log(`flashCards: `, flashCards);
+
+    const sortFlashCardsHandler = () => {
+        const sorted = [...data].sort((a, b) => {
+            return a.word.localeCompare(b.word);
+        });
+        setFlashCards(sorted);
+    };
+
+    // const sortedFlashCards = useSelector(state => state.flashCards.entities);
 
     const handleEditItem = id => {
         const item = data.find(item => id === item.id);
@@ -44,14 +65,15 @@ const WordsList = () => {
 
     return (
         <>
+            <button onClick={sortFlashCardsHandler}>CLICK TO SORT</button>
             <div className="bg-background-blue" ref={componentRef}>
-                {data?.length === 0 ? (
+                {flashCards?.length === 0 ? (
                     <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                         You haven't added any words yet
                     </h1>
                 ) : (
                     <ul className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center">
-                        {data?.map(item => (
+                        {flashCards?.map(item => (
                             <li
                                 key={item?.id}
                                 className="relative group overflow-hidden rounded-lg shadow-xl transition duration-200 hover:shadow-blue-600"

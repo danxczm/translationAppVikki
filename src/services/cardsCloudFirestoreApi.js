@@ -22,6 +22,21 @@ export const flashCardsApi = createApi({
             },
             providesTags: ['Card'],
         }),
+        clearFlashCards: builder.mutation({
+            async queryFn() {
+                try {
+                    const docs = await getDocs(collection(dataBase, 'flashCards'));
+                    const deletePromises = docs.docs.map(doc => deleteDoc(doc.ref));
+
+                    await Promise.all(deletePromises);
+
+                    return { data: 'ok' };
+                } catch (error) {
+                    return { error };
+                }
+            },
+            invalidatesTags: ['Card'],
+        }),
         addFlashCard: builder.mutation({
             async queryFn(data) {
                 try {
@@ -39,7 +54,7 @@ export const flashCardsApi = createApi({
             },
             invalidatesTags: ['Card'],
         }),
-        deleteCard: builder.mutation({
+        deleteFlashCard: builder.mutation({
             async queryFn(id) {
                 try {
                     await deleteDoc(doc(dataBase, 'flashCards', id));
@@ -50,7 +65,7 @@ export const flashCardsApi = createApi({
             },
             invalidatesTags: ['Card'],
         }),
-        updateCard: builder.mutation({
+        updateFlashCard: builder.mutation({
             async queryFn({ id, editedData }) {
                 try {
                     await updateDoc(doc(dataBase, 'flashCards', id), {
@@ -68,7 +83,8 @@ export const flashCardsApi = createApi({
 
 export const {
     useGetFlashCardsQuery,
+    useClearFlashCardsMutation,
     useAddFlashCardMutation,
-    useDeleteCardMutation,
-    useUpdateCardMutation,
+    useDeleteFlashCardMutation,
+    useUpdateFlashCardMutation,
 } = flashCardsApi;

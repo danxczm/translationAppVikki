@@ -21,7 +21,7 @@ import {
 // import * as selector from '../redux/features/cards/Selector';
 
 const WordsList = () => {
-    const [flashCards, setFlashCards] = useState([]);
+    const [flashCards, setFlashCards] = useState([]); // ! looking for solution to not re-render when delete card whyle sorted
     const { setIsEditing, setSelectedDataItem } = useContext(ContextData);
 
     const { data } = useGetFlashCardsQuery();
@@ -31,14 +31,14 @@ const WordsList = () => {
         setFlashCards(data);
     }, [data]);
 
-    console.log(`flashCards: `, flashCards);
+    // console.log(`flashCards: `, flashCards);
 
-    const sortFlashCardsHandler = () => {
-        const sorted = [...data].sort((a, b) => {
-            return a.word.localeCompare(b.word);
-        });
-        setFlashCards(sorted);
-    };
+    // const sortFlashCardsHandler = () => {
+    //     const sorted = [...data].sort((a, b) => {
+    //         return a.word.localeCompare(b.word);
+    //     });
+    //     setFlashCards(sorted);
+    // };
 
     // const sortedFlashCards = useSelector(state => state.flashCards.entities);
 
@@ -65,7 +65,7 @@ const WordsList = () => {
 
     return (
         <>
-            <button onClick={sortFlashCardsHandler}>CLICK TO SORT</button>
+            {/* <button onClick={sortFlashCardsHandler}>CLICK TO SORT</button> */}
             <div className="bg-background-blue" ref={componentRef}>
                 {flashCards?.length === 0 ? (
                     <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">

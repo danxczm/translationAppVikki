@@ -17,8 +17,8 @@ export const ContextData = createContext();
 const App = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedDataItem, setSelectedDataItem] = useState(null);
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    // const [data, setData] = useState([]);
+    // const [isLoading, setIsLoading] = useState(false);
 
     // useEffect(() => {
     //     dispatch(getCardsThunk());
@@ -30,10 +30,10 @@ const App = () => {
         setIsEditing,
         selectedDataItem,
         setSelectedDataItem,
-        data,
-        setData,
-        isLoading,
-        setIsLoading,
+        // data,
+        // setData,
+        // isLoading,
+        // setIsLoading,
     };
 
     return (

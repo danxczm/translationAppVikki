@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { useSelector } from 'react-redux';
 
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { dataBase } from '../Firebase/firebaseConfig';
@@ -13,6 +12,7 @@ import {
     useClearFlashCardsMutation,
     useGetFlashCardsQuery,
 } from '../services/cardsCloudFirestoreApi';
+import { useCreateFlashCardsCollectionMutation } from '../services/flashCardsCollectionCloudFirestoreApi';
 
 const WordListFunctionality = () => {
     const [open, setOpen] = useState(false);
@@ -22,6 +22,7 @@ const WordListFunctionality = () => {
     const dispatch = useDispatch();
 
     const [clearFlashCards] = useClearFlashCardsMutation();
+    const [createFlashCardsCollection] = useCreateFlashCardsCollectionMutation();
 
     const clearDataFunction = async _ => {
         const result = await Swal.fire({
@@ -46,6 +47,8 @@ const WordListFunctionality = () => {
         } catch (e) {
             console.error('Error adding collection: ', e);
         }
+
+        createFlashCardsCollection(data);
 
         clearFlashCards();
         // getCollectionFireBase();

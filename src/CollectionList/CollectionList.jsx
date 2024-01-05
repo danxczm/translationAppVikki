@@ -7,17 +7,22 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { MdArrowDownward } from 'react-icons/md';
 
 import Swal from 'sweetalert2';
+import {
+    useGetFlashCardsCollectionQuery,
+    usePrintFlashCardsCollectionMutation,
+} from '../services/flashCardsCollectionCloudFirestoreApi';
 
 const CollectionList = () => {
-    const cardsCollection = [];
+    const { data } = useGetFlashCardsCollectionQuery();
+    const [printCollection] = usePrintFlashCardsCollectionMutation();
     // const { collection: cardsCollection } = useSelector(state => state.cards);
     const [showCollection, setShowCollection] = useState(false);
 
-    const deleteCollection = (e, id) => {
-        deleteCollectionFireBase(id);
-        const filteredCollection = cardsCollection.filter(item => item.id !== id);
-        // setDataCollection(filteredCollection);
-    };
+    // const deleteCollection = (e, id) => {
+    //     deleteCollectionFireBase(id);
+    //     const filteredCollection = cardsCollection.filter(item => item.id !== id);
+    //     // setDataCollection(filteredCollection);
+    // };
 
     const deleteCollectionFunction = async (e, id, index) => {
         e.stopPropagation();
@@ -31,7 +36,7 @@ const CollectionList = () => {
         });
 
         if (result.value) {
-            deleteCollection(e, id);
+            // deleteCollection(e, id);
         }
     };
 
@@ -59,25 +64,25 @@ const CollectionList = () => {
                     showCollection ? '-translate-y-0' : '-translate-y-60'
                 } z-20 h-[80px] w-full bg-white border-2 rounded-lg duration-500`}
             >
-                {cardsCollection.length !== 0 ? (
+                {data?.length !== 0 ? (
                     <ul className="flex [&>*:not(:first-child)]:ml-2 p-3">
-                        {cardsCollection.map((item, i) => {
+                        {data?.map((item, index) => {
                             return (
                                 <li
-                                    key={i}
+                                    key={index}
                                     onClick={() => {
                                         setShowCollection(false);
-                                        // getCollectionFireBase(i);
+                                        printCollection({ data, index });
                                     }}
                                     className="relative flex justify-center items-center rounded-xl h-[65px] w-20 bg-blue-700 cursor-pointer"
                                 >
                                     <p className="text-center text-white text-xs font-black mt-6">
-                                        Collection {i + 1}
+                                        Collection {index + 1}
                                     </p>
                                     <button
                                         type="button"
                                         onClick={e => {
-                                            deleteCollectionFunction(e, item.id, i);
+                                            deleteCollectionFunction(e, item.id, index);
                                         }}
                                         className="h-5 w-16 bg-white hover:bg-blue-300 absolute top-1 rounded-full flex items-center justify-center"
                                     >

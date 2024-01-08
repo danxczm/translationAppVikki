@@ -1,13 +1,18 @@
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
-import { ContextData } from '../App';
-import { useUpdateFlashCardMutation } from '../services/cardsCloudFirestoreApi';
+// import { ContextData } from '../App';
+import { useUpdateFlashCardMutation } from './flashCardsSlice';
 
-const Edit = () => {
-    const { setIsEditing, selectedDataItem } = useContext(ContextData);
-    const [updateCard] = useUpdateFlashCardMutation();
+const EditFlashCard = () => {
+    const { flashCardId } = useParams();
+    const navigate = useNavigate();
 
-    const id = selectedDataItem.id;
+    const [updateFlashCard, { isLoading }] = useUpdateFlashCardMutation();
+
+    // const id = selectedDataItem.id;
+
+    const selectedDataItem = '';
 
     const [newWord, setNewWord] = useState(selectedDataItem.word);
     const [newTranslation, setNewTranslation] = useState(selectedDataItem.translation);
@@ -22,14 +27,14 @@ const Edit = () => {
             picture: newPicture,
         };
 
-        await updateCard({ id, editedData });
-        setIsEditing(false);
+        // await updateFlashCard({ id, editedData });
+        // setIsEditing(false);
     };
 
     return (
         <div>
             <button
-                onClick={() => setIsEditing(false)}
+                // onClick={() => setIsEditing(false)}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5"
             >
                 Back
@@ -96,4 +101,4 @@ const Edit = () => {
     );
 };
 
-export default Edit;
+export default EditFlashCard;

@@ -7,14 +7,15 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { MdArrowDownward } from 'react-icons/md';
 
 import Swal from 'sweetalert2';
-import {
-    useGetFlashCardsCollectionQuery,
-    usePrintFlashCardsCollectionMutation,
-} from '../services/flashCardsCollectionCloudFirestoreApi';
+// import {
+//     useGetFlashCardsCollectionQuery,
+//     usePrintFlashCardsCollectionMutation,
+// } from '../services/flashCardsCollectionCloudFirestoreApi';
 
 const CollectionList = () => {
-    const { data } = useGetFlashCardsCollectionQuery();
-    const [printCollection] = usePrintFlashCardsCollectionMutation();
+    // const { data } = useGetFlashCardsCollectionQuery();
+    const data = [];
+    // const [printCollection] = usePrintFlashCardsCollectionMutation();
     // const { collection: cardsCollection } = useSelector(state => state.cards);
     const [showCollection, setShowCollection] = useState(false);
 
@@ -72,7 +73,7 @@ const CollectionList = () => {
                                     key={index}
                                     onClick={() => {
                                         setShowCollection(false);
-                                        printCollection({ data, index });
+                                        // printCollection({ data, index });
                                     }}
                                     className="relative flex justify-center items-center rounded-xl h-[65px] w-20 bg-blue-700 cursor-pointer"
                                 >

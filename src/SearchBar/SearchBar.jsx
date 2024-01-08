@@ -1,23 +1,22 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { fetchMultipleData } from '../utils/fetchMultipleData';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { useAddFlashCardMutation } from '../services/cardsCloudFirestoreApi';
+import { useAddFlashCardMutation } from '../features/flashCards/flashCardsSlice';
+import { toast } from 'react-toastify';
 
 const SearchBar = () => {
     const [searchWord, setSearchWord] = useState('');
+    const [open, setOpen] = useState(false);
     const [languageTranslation, setLanguageTranslation] = useState({
         language: 'uk',
         icon: '🇺🇦',
         fullName: 'Ukrainian',
     });
-    const [open, setOpen] = useState(false);
 
     const [addCard, { isLoading }] = useAddFlashCardMutation();
-
-    const inputRef = useRef(null);
 
     const languageOptions = [
         { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
@@ -27,40 +26,27 @@ const SearchBar = () => {
         { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
     ];
 
-    const getCardInformation = async () => {
-        try {
-            const result = await fetchMultipleData(searchWord, languageTranslation.language);
-            // const { translation, word } = result;
-
-            // if (translation === word) {
-            //     return toast.error(
-            //         `You can't translate ${languageTranslation.fullName} to ${languageTranslation.fullName}! Click the checkbox to select a language for translation!`
-            //     );
-            // }
-
-            addCard(result);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
     const handleInputChange = e => {
         setSearchWord(e.target.value);
     };
 
     const handleSubmitButton = async e => {
         e.preventDefault();
-        await getCardInformation();
-        // await getDataFireBase();
-        setSearchWord('');
 
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 0);
+        try {
+            addCard({
+                searchWord,
+                language: languageTranslation.language,
+                languageFullName: languageTranslation.fullName,
+            }).unwrap();
+            setSearchWord('');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
 
     return (
-        <div className="flex justify-between py-3 bg-background-blue">
+        <div className="flex justify-between py-3">
             <div className="w-32 rounded relative">
                 <div
                     onClick={() => setOpen(!open)}
@@ -70,7 +56,7 @@ const SearchBar = () => {
                 </div>
 
                 {open && (
-                    <ul className="bg-white absolute">
+                    <ul className="bg-white absolute z-50">
                         {languageOptions
                             .filter(item => item.language !== languageTranslation.language)
                             .map(item => (
@@ -102,15 +88,13 @@ const SearchBar = () => {
                         <HiOutlineSearch size="20px" />
                     </div>
                     <input
-                        autoFocus
                         autoComplete="off"
-                        ref={inputRef}
                         value={searchWord}
                         disabled={isLoading}
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none bg-background-blue disabled:bg-background-blue"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />

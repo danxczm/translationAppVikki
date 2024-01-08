@@ -1,14 +1,14 @@
-import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import { collection, deleteDoc, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { dataBase } from '../Firebase/firebaseConfig';
+import { createSelector } from '@reduxjs/toolkit';
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { dataBase } from '../../Firebase/firebaseConfig';
+import { apiSlice } from '../api/apiSlice';
+import { fetchMultipleData } from 'utils/fetchMultipleData';
+import { toast } from 'react-toastify';
 
-export const flashCardsApi = createApi({
-    reducerPath: 'flashCardsApi',
-    baseQuery: fakeBaseQuery(),
-    tagTypes: ['Card'],
+export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getFlashCards: builder.query({
-            async queryFn() {
+            queryFn: async () => {
                 try {
                     const querySnapshot = await getDocs(collection(dataBase, 'flashCards'));
                     const data = querySnapshot.docs.map(doc => ({
@@ -20,10 +20,24 @@ export const flashCardsApi = createApi({
                     return { error };
                 }
             },
-            providesTags: ['Card'],
+            providesTags: ['FlashCards'],
         }),
+
+        getSingleFlashCard: builder.query({
+            queryFn: async flashCardId => {
+                try {
+                    const docRef = doc(dataBase, 'flashCards', flashCardId);
+                    const snapshot = await getDoc(docRef);
+                    return { data: snapshot.data() };
+                } catch (error) {
+                    return { error };
+                }
+            },
+            providesTags: ['FlashCards'],
+        }),
+
         clearFlashCards: builder.mutation({
-            async queryFn() {
+            queryFn: async () => {
                 try {
                     const docs = await getDocs(collection(dataBase, 'flashCards'));
                     const deletePromises = docs.docs.map(doc => deleteDoc(doc.ref));
@@ -35,27 +49,38 @@ export const flashCardsApi = createApi({
                     return { error };
                 }
             },
-            invalidatesTags: ['Card'],
+            invalidatesTags: ['FlashCards'],
         }),
+
         addFlashCard: builder.mutation({
-            async queryFn(data) {
+            queryFn: async ({ searchWord, language, languageFullName }) => {
                 try {
+                    const result = await fetchMultipleData(searchWord, language);
+
+                    // ! not sure this should be here
+                    const { translation, word } = result;
+
+                    if (translation.toLowerCase() === word.toLowerCase()) {
+                        return toast.error(
+                            `You can't translate ${languageFullName} to ${languageFullName}! Click the checkbox to select a language for translation!`
+                        );
+                    }
+                    // !
+
                     const docRef = doc(collection(dataBase, 'flashCards'), Date.now().toString());
                     await setDoc(docRef, {
-                        ...data,
-                        // picture,
-                        // translation,
-                        // word,
+                        ...result,
                     });
                     return { data: 'ok' };
                 } catch (error) {
                     return { error };
                 }
             },
-            invalidatesTags: ['Card'],
+            invalidatesTags: ['FlashCards'],
         }),
+
         deleteFlashCard: builder.mutation({
-            async queryFn(id) {
+            queryFn: async id => {
                 try {
                     await deleteDoc(doc(dataBase, 'flashCards', id));
                     return { data: 'ok' };
@@ -63,10 +88,11 @@ export const flashCardsApi = createApi({
                     return { error };
                 }
             },
-            invalidatesTags: ['Card'],
+            invalidatesTags: ['FlashCards'],
         }),
+
         updateFlashCard: builder.mutation({
-            async queryFn({ id, editedData }) {
+            queryFn: async ({ id, editedData }) => {
                 try {
                     await updateDoc(doc(dataBase, 'flashCards', id), {
                         ...editedData,
@@ -76,15 +102,20 @@ export const flashCardsApi = createApi({
                     return { error };
                 }
             },
-            invalidatesTags: ['Card'],
+            invalidatesTags: ['FlashCards'],
         }),
     }),
 });
 
 export const {
     useGetFlashCardsQuery,
+    useGetSingleFlashCardQuery,
     useClearFlashCardsMutation,
     useAddFlashCardMutation,
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
-} = flashCardsApi;
+} = extendedApiSlice;
+
+// const selectCardsResult = extendedApiSlice.endpoints.getFlashCards.select();
+
+// const selectData = createSelector(selectCardsResult, result => result.data);

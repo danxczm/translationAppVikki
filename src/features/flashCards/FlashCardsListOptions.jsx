@@ -1,37 +1,20 @@
 import { useState } from 'react';
 
-import { collection, doc, setDoc } from 'firebase/firestore';
-import { dataBase } from '../Firebase/firebaseConfig';
 import Swal from 'sweetalert2';
-import { useSelector, useDispatch } from 'react-redux';
-// import { sortFlashCardsLocally } from '../redux/flashCardsSlice';
 
 import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-// import {
-//     useClearFlashCardsMutation,
-//     useGetFlashCardsQuery,
-// } from '../features/flashCards/flashCardsSlice';
-// import { useCreateFlashCardsCollectionMutation } from '../services/flashCardsCollectionCloudFirestoreApi';
+import { useClearFlashCardsMutation } from 'features/flashCards/flashCardsSlice';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useCreateFlashCardsColletionMutation } from 'features/flashCardsCollection/flashCardsCollectionSlice';
 
-const WordListFunctionality = () => {
-    const [open, setOpen] = useState(false);
+const FlashCardsListOptions = ({ flashCards, sortHandler }) => {
+    // const [open, setOpen] = useState(false);
 
-    // sortFlashCardsLocally: (state, action) => {
-    //         state.entities = [...action.payload].sort((a, b) => {
-    //             return a.word.localeCompare(b.word);
-    //         });
-    //     },
+    const [clearFlashCards, { isLoading: flashCardsCleaning }] = useClearFlashCardsMutation();
+    const [createFlashCardsCollection] = useCreateFlashCardsColletionMutation();
 
-    // const { data } = useGetFlashCardsQuery();
-    const data = [];
-
-    const dispatch = useDispatch();
-
-    // const [clearFlashCards] = useClearFlashCardsMutation();
-    // const [createFlashCardsCollection] = useCreateFlashCardsCollectionMutation();
-
-    const clearDataFunction = async _ => {
+    const clearFlashCardsFunction = async _ => {
         const result = await Swal.fire({
             icon: 'warning',
             title: 'Are you sure?',
@@ -42,44 +25,24 @@ const WordListFunctionality = () => {
         });
 
         if (result.value) {
-            // clearFlashCards();
+            try {
+                await clearFlashCards().unwrap();
+            } catch (error) {
+                console.log(`Error when deleting flash cards: `, error);
+            }
         }
     };
 
     const addCollectionFireBase = async _ => {
-        try {
-            const docRef = await doc(collection(dataBase, 'collection'), Date.now().toString());
-            setDoc(docRef, { ...data });
-            console.log('Collection written with ID: ', docRef.id);
-        } catch (e) {
-            console.error('Error adding collection: ', e);
-        }
-
-        // createFlashCardsCollection(data);
-
-        // clearFlashCards();
-        // getCollectionFireBase();
+        createFlashCardsCollection(flashCards);
     };
-
-    // const sortFlashCardsHandler = () => {
-    //     if (sorted) {
-    //         const sorted = [...data].sort((a, b) => {
-    //             return a.word.localeCompare(b.word);
-    //         });
-
-    //         return sorted;
-    //     }
-    //     return;
-    // };
-
-    // const sortedFlashCards = sortFlashCardsHandler();
 
     return (
         <div className="flex items-center ml-auto py-2">
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-semibold text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">
-                    {data?.length}
+                    {flashCards?.length}
                 </span>
             </p>
 
@@ -147,7 +110,7 @@ const WordListFunctionality = () => {
                 <div className="group relative">
                     <button
                         type="button"
-                        disabled={data?.length === 0}
+                        disabled={flashCards?.length === 0}
                         onClick={addCollectionFireBase}
                         title="Save collection."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-l-md disabled:bg-gray-300 disabled:cursor-not-allowed"
@@ -162,9 +125,8 @@ const WordListFunctionality = () => {
                 <div className="group relative">
                     <button
                         type="button"
-                        disabled={data?.length === 0}
-                        // onClick={() => setSorted(true)}
-                        // onClick={() => dispatch(sortFlashCardsLocally(data))}
+                        disabled={flashCards?.length === 0}
+                        onClick={() => sortHandler(prev => !prev)}
                         title="Sort collection from A-Z."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium disabled:bg-gray-300  disabled:cursor-not-allowed"
                     >
@@ -175,15 +137,28 @@ const WordListFunctionality = () => {
                     </div>
                 </div>
                 <div className="group relative">
-                    <button
-                        type="button"
-                        disabled={data?.length === 0}
-                        onClick={clearDataFunction}
-                        title="Clear collection."
-                        className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-r-md disabled:bg-gray-300  disabled:cursor-not-allowed"
-                    >
-                        <HiOutlineTrash size="20px" />
-                    </button>
+                    {!flashCardsCleaning ? (
+                        <button
+                            type="button"
+                            disabled={flashCards?.length === 0}
+                            onClick={clearFlashCardsFunction}
+                            title="Clear collection."
+                            className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-r-md disabled:bg-gray-300  disabled:cursor-not-allowed"
+                        >
+                            <HiOutlineTrash size="20px" />
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            type="button"
+                            className="items-center justify-center p-3 bg-blue-600 text-white rounded-r-md  disabled:cursor-not-allowed"
+                        >
+                            <AiOutlineLoading3Quarters
+                                size="20px"
+                                className="text-white animate-spin"
+                            />
+                        </button>
+                    )}
                     <div className="p-1 bg-gray-500 rounded mt-1 invisible group-hover:visible absolute z-10">
                         <p className="text-white text-center text-xs">Clear collection.</p>
                     </div>
@@ -193,4 +168,4 @@ const WordListFunctionality = () => {
     );
 };
 
-export default WordListFunctionality;
+export default FlashCardsListOptions;

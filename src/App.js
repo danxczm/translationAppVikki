@@ -7,8 +7,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // import { getCardsThunk, getCardsCollectionThunk } from './redux/features/cards/Thunk';
 
 import Layout from 'components/Layout';
-import SearchBar from './SearchBar/SearchBar';
-import WordListFunctionality from './WordListFunctionality/WordListFunctionality';
 import WordsList from './features/flashCards/FlashCardsList';
 import CollectionList from './CollectionList/CollectionList';
 import HomeTitle from 'components/HomeTitle';

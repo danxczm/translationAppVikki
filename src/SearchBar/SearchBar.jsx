@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
-import { fetchMultipleData } from '../utils/fetchMultipleData';
-
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useAddFlashCardMutation } from '../features/flashCards/flashCardsSlice';
-import { toast } from 'react-toastify';
 
 const SearchBar = () => {
     const [searchWord, setSearchWord] = useState('');

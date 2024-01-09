@@ -64,13 +64,6 @@ const FlashCardExcerpt = ({ card }) => {
                 </button>
 
                 {/* edit button */}
-                {/* <button
-                type="button"
-                // onClick={() => handleEditItem(item?.id)}
-                className="h-5 w-5 bg-white absolute top-2 left-2 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-                <AiOutlineEdit />
-            </button> */}
                 <Link
                     className="h-5 w-5 bg-white absolute top-2 left-2 flex items-center justify-center rounded-md opacity-0 group-hover:opacity-100 transition-opacity"
                     to={`edit/${card.id}`}

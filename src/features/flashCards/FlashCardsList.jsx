@@ -1,23 +1,22 @@
 import { useMemo, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { BiSave } from 'react-icons/bi';
-import { LuBookMarked } from 'react-icons/lu';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { LiaChessKingSolid, LiaGoogle } from 'react-icons/lia';
-
-import { toastInitialSettings } from '../../utils/utils';
 import ReactToPrint from 'react-to-print';
 
-import SearchBar from 'SearchBar/SearchBar';
 import { useGetFlashCardsQuery } from './flashCardsSlice';
-import FlashCardExcerpt from './FlashCardExcerpt';
 
-const WordsList = () => {
+import SearchBar from 'SearchBar/SearchBar';
+import FlashCardExcerpt from './FlashCardExcerpt';
+import FlashCardsListOptions from 'features/flashCards/FlashCardsListOptions';
+
+const FlashCardsList = () => {
     const componentRef = useRef();
     const [sort, setSort] = useState(false);
     const { data: flashCards, isLoading, isSuccess, isError, error } = useGetFlashCardsQuery();
+
+    const sortHandler = value => {
+        setSort(value);
+    };
 
     const sortedFlashCards = useMemo(() => {
         const copy = flashCards?.slice();
@@ -37,8 +36,11 @@ const WordsList = () => {
     return (
         <>
             <SearchBar />
+            <FlashCardsListOptions flashCards={flashCards} sortHandler={sortHandler} />
             <div ref={componentRef}>
-                <ul className="grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center">
+                <ul
+                    className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center`}
+                >
                     {sortedFlashCards?.length === 0 ? (
                         <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                             You haven't added any words yet
@@ -67,4 +69,4 @@ const WordsList = () => {
     );
 };
 
-export default WordsList;
+export default FlashCardsList;

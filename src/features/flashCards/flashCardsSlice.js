@@ -92,10 +92,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         }),
 
         updateFlashCard: builder.mutation({
-            queryFn: async ({ id, editedData }) => {
+            queryFn: async ({ flashCardId, newData }) => {
                 try {
-                    await updateDoc(doc(dataBase, 'flashCards', id), {
-                        ...editedData,
+                    await updateDoc(doc(dataBase, 'flashCards', flashCardId), {
+                        ...newData,
                     });
                     return { data: 'ok' };
                 } catch (error) {

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 const HomeTitle = () => {
     return (
         <div>
-            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+            <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
                     SKYLANG
                 </span>
                 Learning App
@@ -15,7 +15,7 @@ const HomeTitle = () => {
             >
                 Lets start
                 <svg
-                    class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+                    className="w-3.5 h-3.5 ms-2 rtl:rotate-180"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -23,9 +23,9 @@ const HomeTitle = () => {
                 >
                     <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M1 5h12m0 0L9 1m4 4L9 9"
                     />
                 </svg>

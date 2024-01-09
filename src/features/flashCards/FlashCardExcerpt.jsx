@@ -12,6 +12,14 @@ import { Rings } from 'react-loader-spinner';
 const FlashCardExcerpt = ({ card }) => {
     const [deleteFlashCard, { isLoading, isSuccess }] = useDeleteFlashCardMutation();
 
+    const deleteFlashCardHandler = async id => {
+        try {
+            await deleteFlashCard(id).unwrap();
+        } catch (error) {
+            console.log(`Failed to delete the card: `, error);
+        }
+    };
+
     const copyTextToClipboard = async text => {
         toast.success('The word is copied!', toastInitialSettings);
         if ('clipboard' in navigator) {
@@ -37,7 +45,7 @@ const FlashCardExcerpt = ({ card }) => {
                     />
                 </div>
             )}
-            <div className={`${isLoading || (isSuccess && 'blur-sm')}`}>
+            <div className={`${(isLoading || isSuccess) && 'blur-sm'}`}>
                 <img
                     loading="lazy"
                     className="rounded relative w-full object-cover aspect-square transition duration-200 group-hover:scale-110 "
@@ -48,7 +56,7 @@ const FlashCardExcerpt = ({ card }) => {
                 <button
                     type="button"
                     onClick={() => {
-                        deleteFlashCard(card?.id);
+                        deleteFlashCardHandler(card?.id);
                     }}
                     className="h-5 w-5 bg-white absolute top-2 right-2 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 >

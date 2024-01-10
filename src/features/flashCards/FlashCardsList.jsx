@@ -5,14 +5,15 @@ import ReactToPrint from 'react-to-print';
 
 import { useGetFlashCardsQuery } from './flashCardsSlice';
 
-import SearchBar from 'SearchBar/SearchBar';
+import FlashCardAddForm from 'features/flashCards/FlashCardAddForm';
 import FlashCardExcerpt from './FlashCardExcerpt';
 import FlashCardsListOptions from 'features/flashCards/FlashCardsListOptions';
 
 const FlashCardsList = () => {
-    const componentRef = useRef();
     const [sort, setSort] = useState(false);
     const { data: flashCards, isLoading, isSuccess, isError, error } = useGetFlashCardsQuery();
+
+    const componentRef = useRef();
 
     const sortHandler = value => {
         setSort(value);
@@ -25,9 +26,7 @@ const FlashCardsList = () => {
     }, [flashCards, sort]);
 
     let content;
-    if (isLoading) {
-        content = <p>Loading...</p>;
-    } else if (isSuccess) {
+    if (isSuccess) {
         content = sortedFlashCards?.map(card => <FlashCardExcerpt key={card.id} card={card} />);
     } else if (isError) {
         content = <p>{error}</p>;
@@ -35,24 +34,28 @@ const FlashCardsList = () => {
 
     return (
         <>
-            <SearchBar />
-            <FlashCardsListOptions flashCards={flashCards} sortHandler={sortHandler} />
+            <FlashCardAddForm />
+            <FlashCardsListOptions
+                flashCards={sortedFlashCards}
+                sortHandler={sortHandler}
+                isLoading={isLoading}
+            />
             <div ref={componentRef}>
-                <ul
-                    className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center`}
-                >
-                    {sortedFlashCards?.length === 0 ? (
-                        <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
-                            You haven't added any words yet
-                        </h1>
-                    ) : (
-                        content
-                    )}
-                </ul>
+                {sortedFlashCards?.length === 0 ? (
+                    <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
+                        You haven't added any words yet
+                    </h1>
+                ) : (
+                    <ul
+                        className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center`}
+                    >
+                        {content}
+                    </ul>
+                )}
             </div>
             <ReactToPrint
                 trigger={() =>
-                    sortedFlashCards?.length !== 0 ? (
+                    sortedFlashCards?.length !== 0 && sortedFlashCards !== undefined ? (
                         <div className="flex items-center justify-center mt-5 sticky bottom-5">
                             <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
                                 <BiSave size="20px" className="mr-2" />

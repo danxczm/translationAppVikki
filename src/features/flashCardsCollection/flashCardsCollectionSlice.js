@@ -55,13 +55,17 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                 try {
                     const newCollectionData = Object.values(data[index]);
 
-                    for (let i = 0; i < newCollectionData.length; i++) {
-                        if (typeof newCollectionData[i] === 'string') return { data: 'ok' };
+                    for (const flashCard of newCollectionData) {
+                        if (typeof flashCard === 'string') continue;
+
+                        const { id, ...newFlashCard } = flashCard;
+
                         const docRef = doc(
                             collection(dataBase, 'flashCards'),
                             Date.now().toString()
                         );
-                        await setDoc(docRef, newCollectionData[i]);
+
+                        await setDoc(docRef, newFlashCard);
                     }
 
                     return { data: 'ok' };
@@ -69,7 +73,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
                     return { error };
                 }
             },
-            invalidatesTags: ['FlashCardCollection'],
+            invalidatesTags: ['FlashCards'],
         }),
     }),
 });
@@ -80,3 +84,21 @@ export const {
     useDeleteFlashCardsColletionMutation,
     usePrintFlashCardsCollectionMutation,
 } = extendedApiSlice;
+
+// export const addDataFireBase = async response => {
+//     const { word, translation, picture } = response;
+
+//     console.log(`response: `, response);
+
+//     try {
+//         const docRef = doc(collection(dataBase, 'data'), Date.now().toString());
+//         await setDoc(docRef, {
+//             picture,
+//             translation,
+//             word,
+//         });
+//         console.log('Document written with ID: ', docRef.id);
+//     } catch (e) {
+//         console.error('Error adding document: ', e);
+//     }
+// };

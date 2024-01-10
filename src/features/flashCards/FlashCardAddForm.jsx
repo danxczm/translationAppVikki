@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { useAddFlashCardMutation } from '../features/flashCards/flashCardsSlice';
+import { useAddFlashCardMutation } from './flashCardsSlice';
 
-const SearchBar = () => {
+const FlashCardAddForm = () => {
     const [searchWord, setSearchWord] = useState('');
     const [open, setOpen] = useState(false);
     const [languageTranslation, setLanguageTranslation] = useState({
@@ -120,4 +120,4 @@ const SearchBar = () => {
     );
 };
 
-export default SearchBar;
+export default FlashCardAddForm;

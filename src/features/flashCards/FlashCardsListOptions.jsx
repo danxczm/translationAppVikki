@@ -8,7 +8,7 @@ import { useClearFlashCardsMutation } from 'features/flashCards/flashCardsSlice'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useCreateFlashCardsColletionMutation } from 'features/flashCardsCollection/flashCardsCollectionSlice';
 
-const FlashCardsListOptions = ({ flashCards, sortHandler }) => {
+const FlashCardsListOptions = ({ flashCards, sortHandler, isLoading }) => {
     // const [open, setOpen] = useState(false);
 
     const [clearFlashCards, { isLoading: flashCardsCleaning }] = useClearFlashCardsMutation();
@@ -42,7 +42,15 @@ const FlashCardsListOptions = ({ flashCards, sortHandler }) => {
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-semibold text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">
-                    {flashCards?.length}
+                    {isLoading ? (
+                        <AiOutlineLoading3Quarters
+                            size="15px"
+                            color="blue"
+                            className="text-white animate-spin"
+                        />
+                    ) : (
+                        flashCards?.length
+                    )}
                 </span>
             </p>
 

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Header = () => {
     return (
@@ -11,35 +11,35 @@ const Header = () => {
                             className="mr-3 w-14"
                             alt="Flowbite Logo"
                         />
-                        <span className="self-center text-sm font-semibold whitespace-nowrap underline underline-offset-3 decoration-4 decoration-blue-400">
+                        <span className="self-center text-sm font-semibold whitespace-nowrap underline underline-offset-4 decoration-4 decoration-blue-400">
                             SKYLANG
                         </span>
                     </div>
                     <nav className="justify-between items-center w-auto flex">
                         <ul className="flex flex-row mt-0 font-medium space-x-8">
                             <li>
-                                <Link
-                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-3 decoration-4 decoration-blue-400"
+                                <NavLink
+                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
                                     to="/"
                                 >
                                     Home
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
-                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-3 decoration-4 decoration-blue-400"
+                                <NavLink
+                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
                                     to="flashCards"
                                 >
                                     Flash Cards
-                                </Link>
+                                </NavLink>
                             </li>
                             <li>
-                                <Link
-                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-3 decoration-4 decoration-blue-400"
+                                <NavLink
+                                    className="py-2 pr-4 pl-3 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
                                     to="cardsCollections"
                                 >
                                     Collections
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>

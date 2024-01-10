@@ -11,3 +11,7 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+.active {
+    @apply underline underline-offset-[4px] decoration-4 decoration-blue-400;
+}

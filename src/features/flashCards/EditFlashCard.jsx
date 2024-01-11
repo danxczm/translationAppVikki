@@ -1,47 +1,60 @@
-import React, { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { doc, updateDoc } from 'firebase/firestore';
+import { useGetSingleFlashCardQuery, useUpdateFlashCardMutation } from './flashCardsSlice';
+import { skipToken } from '@reduxjs/toolkit/query';
 
-import { ContextData } from '../App';
-import { dataBase } from '../Firebase/firebaseConfig';
+const EditFlashCard = () => {
+    const { flashCardId } = useParams();
+    const navigate = useNavigate();
 
-const Edit = () => {
-    const { data, setData, setIsEditing, selectedDataItem, getDataFireBase } =
-        useContext(ContextData);
+    const {
+        data: { word = '', translation = '', picture = '' } = '',
+        isLoading: flashCardDataLoading,
+    } = useGetSingleFlashCardQuery(flashCardId ?? skipToken);
+    const [updateFlashCard, { isLoading }] = useUpdateFlashCardMutation();
 
-    const id = selectedDataItem.id;
+    const [newWord, setNewWord] = useState(word);
+    const [newTranslation, setNewTranslation] = useState(translation);
+    const [newPicture, setNewPicture] = useState(picture);
 
-    const [newWord, setNewWord] = useState(selectedDataItem.word);
-    const [newTranslation, setNewTranslation] = useState(selectedDataItem.translation);
-    const [newPicture, setNewPicture] = useState(selectedDataItem.picture);
+    useEffect(() => {
+        setNewWord(word);
+        setNewTranslation(translation);
+        setNewPicture(picture);
+    }, [word, translation, picture]);
 
-    const handleUpdate = async e => {
+    const canUpdate = [newWord, newTranslation, newPicture].every(Boolean) && !flashCardDataLoading;
+
+    const handleUpdateFlashCard = async e => {
         e.preventDefault();
 
-        const editedData = {
-            word: newWord,
-            translation: newTranslation,
-            picture: newPicture,
-        };
+        if (canUpdate) {
+            const newData = {
+                word: newWord,
+                translation: newTranslation,
+                picture: newPicture,
+            };
 
-        await updateDoc(doc(dataBase, 'data', id), {
-            ...editedData,
-        });
-
-        setData(data);
-        setIsEditing(false);
-        getDataFireBase();
+            try {
+                await updateFlashCard({ flashCardId, newData }).unwrap();
+                if (!isLoading) navigate('/flashCards');
+            } catch (error) {
+                console.log(`Update flash card is failed: `, error);
+            }
+        }
     };
 
     return (
         <div>
-            <button
-                onClick={() => setIsEditing(false)}
+            <Link
+                to={'/flashCards'}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center mt-5"
             >
                 Back
-            </button>
-            <form onSubmit={handleUpdate} className="max-w-sm mx-auto m-10">
+            </Link>
+            <form onSubmit={handleUpdateFlashCard} className="max-w-sm mx-auto m-10">
                 <div className="mb-5">
                     <label htmlFor="word" className="block mb-2 text-sm font-medium text-gray-900">
                         Word that you are translating
@@ -103,4 +116,4 @@ const Edit = () => {
     );
 };
 
-export default Edit;
+export default EditFlashCard;

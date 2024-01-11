@@ -1,24 +1,19 @@
-import { useContext, useRef, useState } from 'react';
-import { ContextData } from '../App';
+import { useState } from 'react';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useAddFlashCardMutation } from './flashCardsSlice';
 
-const SearchBar = () => {
+const FlashCardAddForm = () => {
+    const [searchWord, setSearchWord] = useState('');
     const [open, setOpen] = useState(false);
+    const [languageTranslation, setLanguageTranslation] = useState({
+        language: 'uk',
+        icon: '🇺🇦',
+        fullName: 'Ukrainian',
+    });
 
-    const inputRef = useRef(null);
-
-    const {
-        searchWord,
-        setSearchWord,
-        fetchData,
-        getDataFireBase,
-        languageTranslation,
-        setLanguageTranslation,
-        isLoading,
-        setIsLoading,
-    } = useContext(ContextData);
+    const [addCard, { isLoading }] = useAddFlashCardMutation();
 
     const languageOptions = [
         { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
@@ -32,21 +27,23 @@ const SearchBar = () => {
         setSearchWord(e.target.value);
     };
 
-    const handleButtonSearch = async e => {
-        setIsLoading(true);
+    const handleSubmitButton = async e => {
         e.preventDefault();
-        await fetchData();
-        await getDataFireBase();
-        setSearchWord('');
-        setIsLoading(false);
 
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 0);
+        try {
+            addCard({
+                searchWord,
+                language: languageTranslation.language,
+                languageFullName: languageTranslation.fullName,
+            }).unwrap();
+            setSearchWord('');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
 
     return (
-        <div className="flex justify-between py-3 bg-white">
+        <div className="flex justify-between py-3">
             <div className="w-32 rounded relative">
                 <div
                     onClick={() => setOpen(!open)}
@@ -56,7 +53,7 @@ const SearchBar = () => {
                 </div>
 
                 {open && (
-                    <ul className="bg-white absolute">
+                    <ul className="bg-white absolute z-50">
                         {languageOptions
                             .filter(item => item.language !== languageTranslation.language)
                             .map(item => (
@@ -90,13 +87,12 @@ const SearchBar = () => {
                     <input
                         autoFocus
                         autoComplete="off"
-                        ref={inputRef}
                         value={searchWord}
                         disabled={isLoading}
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-white"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-inherit"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />
@@ -104,7 +100,7 @@ const SearchBar = () => {
                     {!isLoading ? (
                         <button
                             disabled={!searchWord}
-                            onClick={handleButtonSearch}
+                            onClick={handleSubmitButton}
                             className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 disabled:bg-gray-300 disabled:cursor-not-allowed focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-2xl w-[132px] h-[44px]"
                         >
                             Add
@@ -125,4 +121,4 @@ const SearchBar = () => {
     );
 };
 
-export default SearchBar;
+export default FlashCardAddForm;

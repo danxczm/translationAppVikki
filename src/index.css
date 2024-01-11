@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+    overflow-y: scroll;
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -10,4 +11,8 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.active {
+    @apply underline underline-offset-[4px] decoration-4 decoration-blue-400;
 }

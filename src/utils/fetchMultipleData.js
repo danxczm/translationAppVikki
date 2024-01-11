@@ -7,13 +7,9 @@ const translateText = async (text, toLanguage = 'en') => {
         params: {
             'to[0]': toLanguage,
             'api-version': '3.0',
-            profanityAction: 'NoAction',
-            textType: 'plain',
         },
         headers: {
-            'content-type': 'application/json',
             'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-            'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
         },
         data: [
             {
@@ -23,7 +19,7 @@ const translateText = async (text, toLanguage = 'en') => {
     };
 
     try {
-        const response = await axios.request(translationOptions);
+        const response = await axios(translationOptions);
         return response?.data[0]?.translations[0]?.text;
     } catch (error) {
         console.error('translateText', error);
@@ -32,13 +28,10 @@ const translateText = async (text, toLanguage = 'en') => {
 };
 
 const fetchUnsplashPhoto = async searchQuery => {
-    const unsplashOptions = {
-        method: 'GET',
-        url: `${process.env.REACT_APP_UNSPLASH_BASE_URL}/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`,
-    };
-
     try {
-        const response = await axios.request(unsplashOptions);
+        const response = await axios(
+            `${process.env.REACT_APP_UNSPLASH_BASE_URL}/search/photos?page=1&per_page=1&orientation=landscape&query=${searchQuery}&client_id=${process.env.REACT_APP_UNSPLASH_KEY_ID}`
+        );
         return response?.data?.results[0]?.urls?.regular || 'https://i.ibb.co/2NVKDq2/1.png';
     } catch (error) {
         console.error('fetchUnsplashPhoto', error);
@@ -54,7 +47,6 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
 
         const response = {
             word: searchQuery,
-            id: Date.now(),
             translation,
             picture: unsplashPhoto,
         };

@@ -1,33 +1,20 @@
-import { useContext, useState } from 'react';
-
-import { ContextData } from '../App';
-import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
-import { dataBase } from '../Firebase/firebaseConfig';
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
-import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 
-const WordListFunctionality = () => {
-    const [open, setOpen] = useState(false);
-    const { data, setData, getDataFireBase, getCollectionFireBase } = useContext(ContextData);
+import { useClearFlashCardsMutation } from './flashCardsSlice';
+import { useCreateFlashCardsColletionMutation } from '../flashCardsCollection/flashCardsCollectionSlice';
 
-    const clearDataFireBase = async () => {
-        try {
-            const docs = await getDocs(collection(dataBase, 'data'));
-            const deletePromises = docs.docs.map(doc => deleteDoc(doc.ref));
+const FlashCardsListOptions = ({ flashCards, sortHandler, flashCardsLoading }) => {
+    // const [open, setOpen] = useState(false);
 
-            await Promise.all(deletePromises);
+    const [clearFlashCards, { isLoading: flashCardsCleaning }] = useClearFlashCardsMutation();
+    const [createFlashCardsCollection] = useCreateFlashCardsColletionMutation();
 
-            setData([]);
-            await getDataFireBase();
-            console.log('Collection cleared successfully.');
-        } catch (error) {
-            console.error('Error clearing collection: ', error);
-        }
-    };
-
-    const clearDataFunction = async _ => {
+    const clearFlashCardsFunction = async _ => {
         const result = await Swal.fire({
             icon: 'warning',
             title: 'Are you sure?',
@@ -38,37 +25,55 @@ const WordListFunctionality = () => {
         });
 
         if (result.value) {
-            clearDataFireBase();
+            try {
+                await clearFlashCards().unwrap();
+            } catch (error) {
+                console.log(`Error when deleting flash cards: `, error);
+            }
         }
     };
 
-    const addCollectionFireBase = async _ => {
-        try {
-            const docRef = await doc(collection(dataBase, 'collection'), Date.now().toString());
-            setDoc(docRef, { ...data });
-            console.log('Collection written with ID: ', docRef.id);
-        } catch (e) {
-            console.error('Error adding collection: ', e);
-        }
-
-        clearDataFireBase();
-        getCollectionFireBase();
-    };
-
-    const sortCollectionHandler = () => {
-        const sortedData = [...data].sort((a, b) => {
-            return a.word.localeCompare(b.word);
+    const createCollectionFireBase = async _ => {
+        const { value: collectionName } = await Swal.fire({
+            title: 'How you want to name this collection?',
+            input: 'text',
+            inputAttributes: {
+                maxlength: '10',
+                autocapitalize: 'off',
+                autocorrect: 'off',
+                required: 'true',
+            },
+            showCancelButton: true,
+            inputValidator: value => {
+                if (!value) {
+                    return 'You need to write something!';
+                }
+            },
         });
-
-        setData(sortedData);
+        if (collectionName) {
+            try {
+                await createFlashCardsCollection({ flashCards, collectionName }).unwrap();
+                toast.success('New collection is added!');
+            } catch (error) {
+                console.log(`addCollectionFireBaseError: `, error);
+            }
+        }
     };
 
     return (
-        <div className="flex items-center bg-white ml-auto py-2">
+        <div className="flex items-center ml-auto py-2">
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-semibold text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">
-                    {data.length}
+                    {flashCardsLoading ? (
+                        <AiOutlineLoading3Quarters
+                            size="15px"
+                            color="blue"
+                            className="text-white animate-spin"
+                        />
+                    ) : (
+                        flashCards?.length
+                    )}
                 </span>
             </p>
 
@@ -136,8 +141,8 @@ const WordListFunctionality = () => {
                 <div className="group relative">
                     <button
                         type="button"
-                        disabled={data.length === 0}
-                        onClick={addCollectionFireBase}
+                        disabled={flashCards?.length === 0}
+                        onClick={createCollectionFireBase}
                         title="Save collection."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-l-md disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >
@@ -151,8 +156,8 @@ const WordListFunctionality = () => {
                 <div className="group relative">
                     <button
                         type="button"
-                        disabled={data.length === 0}
-                        onClick={sortCollectionHandler}
+                        disabled={flashCards?.length === 0}
+                        onClick={() => sortHandler(prev => !prev)}
                         title="Sort collection from A-Z."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium disabled:bg-gray-300  disabled:cursor-not-allowed"
                     >
@@ -163,15 +168,28 @@ const WordListFunctionality = () => {
                     </div>
                 </div>
                 <div className="group relative">
-                    <button
-                        type="button"
-                        disabled={data.length === 0}
-                        onClick={clearDataFunction}
-                        title="Clear collection."
-                        className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-r-md disabled:bg-gray-300  disabled:cursor-not-allowed"
-                    >
-                        <HiOutlineTrash size="20px" />
-                    </button>
+                    {!flashCardsCleaning ? (
+                        <button
+                            type="button"
+                            disabled={flashCards?.length === 0}
+                            onClick={clearFlashCardsFunction}
+                            title="Clear collection."
+                            className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-r-md disabled:bg-gray-300  disabled:cursor-not-allowed"
+                        >
+                            <HiOutlineTrash size="20px" />
+                        </button>
+                    ) : (
+                        <button
+                            disabled
+                            type="button"
+                            className="items-center justify-center p-3 bg-blue-600 text-white rounded-r-md  disabled:cursor-not-allowed"
+                        >
+                            <AiOutlineLoading3Quarters
+                                size="20px"
+                                className="text-white animate-spin"
+                            />
+                        </button>
+                    )}
                     <div className="p-1 bg-gray-500 rounded mt-1 invisible group-hover:visible absolute z-10">
                         <p className="text-white text-center text-xs">Clear collection.</p>
                     </div>
@@ -181,4 +199,4 @@ const WordListFunctionality = () => {
     );
 };
 
-export default WordListFunctionality;
+export default FlashCardsListOptions;

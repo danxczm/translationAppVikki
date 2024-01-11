@@ -3,11 +3,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Layout from 'components/Layout';
-import HomeTitle from 'components/HomeTitle';
+import Layout from './components/Layout';
+import HomeTitle from './components/HomeTitle';
 import FlashCardsList from './features/flashCards/FlashCardsList';
-import EditFlashCard from 'features/flashCards/EditFlashCard';
-import FlashCardsCollectionList from 'features/flashCardsCollection/FlashCardsCollectionList';
+import EditFlashCard from './features/flashCards/EditFlashCard';
+import FlashCardsCollectionList from './features/flashCardsCollection/FlashCardsCollectionList';
 
 const App = () => {
     return (

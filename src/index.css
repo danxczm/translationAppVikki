@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+    overflow-y: scroll;
     font-family: 'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

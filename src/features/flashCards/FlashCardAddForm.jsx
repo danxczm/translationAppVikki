@@ -85,13 +85,14 @@ const FlashCardAddForm = () => {
                         <HiOutlineSearch size="20px" />
                     </div>
                     <input
+                        autoFocus
                         autoComplete="off"
                         value={searchWord}
                         disabled={isLoading}
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none"
+                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-inherit"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />

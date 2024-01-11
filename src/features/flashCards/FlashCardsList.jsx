@@ -5,13 +5,19 @@ import ReactToPrint from 'react-to-print';
 
 import { useGetFlashCardsQuery } from './flashCardsSlice';
 
-import FlashCardAddForm from 'features/flashCards/FlashCardAddForm';
+import FlashCardAddForm from './FlashCardAddForm';
 import FlashCardExcerpt from './FlashCardExcerpt';
-import FlashCardsListOptions from 'features/flashCards/FlashCardsListOptions';
+import FlashCardsListOptions from './FlashCardsListOptions';
 
 const FlashCardsList = () => {
     const [sort, setSort] = useState(false);
-    const { data: flashCards, isLoading, isSuccess, isError, error } = useGetFlashCardsQuery();
+    const {
+        data: flashCards,
+        isLoading: flashCardsLoading,
+        isSuccess,
+        isError,
+        error,
+    } = useGetFlashCardsQuery();
 
     const componentRef = useRef();
 
@@ -38,7 +44,7 @@ const FlashCardsList = () => {
             <FlashCardsListOptions
                 flashCards={sortedFlashCards}
                 sortHandler={sortHandler}
-                isLoading={isLoading}
+                flashCardsLoading={flashCardsLoading}
             />
             <div ref={componentRef}>
                 {sortedFlashCards?.length === 0 ? (

@@ -1,8 +1,8 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { dataBase } from '../../Firebase/firebaseConfig';
 import { apiSlice } from '../api/apiSlice';
-import { fetchMultipleData } from 'utils/fetchMultipleData';
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { fetchMultipleData } from '../../utils/fetchMultipleData';
+
+import { dataBase } from '../../Firebase/firebaseConfig';
 import { toast } from 'react-toastify';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
@@ -115,7 +115,3 @@ export const {
     useDeleteFlashCardMutation,
     useUpdateFlashCardMutation,
 } = extendedApiSlice;
-
-// const selectCardsResult = extendedApiSlice.endpoints.getFlashCards.select();
-
-// const selectData = createSelector(selectCardsResult, result => result.data);

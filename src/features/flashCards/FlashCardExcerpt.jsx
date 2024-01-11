@@ -6,7 +6,7 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { LiaGoogle } from 'react-icons/lia';
 
 import { toast } from 'react-toastify';
-import { toastInitialSettings } from 'utils/utils';
+import { toastInitialSettings } from '../../utils/utils';
 import { Rings } from 'react-loader-spinner';
 
 const FlashCardExcerpt = ({ card }) => {

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-
 import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
-import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { useClearFlashCardsMutation } from 'features/flashCards/flashCardsSlice';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { useCreateFlashCardsColletionMutation } from 'features/flashCardsCollection/flashCardsCollectionSlice';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { HiOutlineTrash, HiOutlineSortDescending, HiOutlineSave } from 'react-icons/hi';
 
-const FlashCardsListOptions = ({ flashCards, sortHandler, isLoading }) => {
+import { useClearFlashCardsMutation } from './flashCardsSlice';
+import { useCreateFlashCardsColletionMutation } from '../flashCardsCollection/flashCardsCollectionSlice';
+
+const FlashCardsListOptions = ({ flashCards, sortHandler, flashCardsLoading }) => {
     // const [open, setOpen] = useState(false);
 
     const [clearFlashCards, { isLoading: flashCardsCleaning }] = useClearFlashCardsMutation();
@@ -33,8 +33,31 @@ const FlashCardsListOptions = ({ flashCards, sortHandler, isLoading }) => {
         }
     };
 
-    const addCollectionFireBase = async _ => {
-        createFlashCardsCollection(flashCards);
+    const createCollectionFireBase = async _ => {
+        const { value: collectionName } = await Swal.fire({
+            title: 'How you want to name this collection?',
+            input: 'text',
+            inputAttributes: {
+                maxlength: '10',
+                autocapitalize: 'off',
+                autocorrect: 'off',
+                required: 'true',
+            },
+            showCancelButton: true,
+            inputValidator: value => {
+                if (!value) {
+                    return 'You need to write something!';
+                }
+            },
+        });
+        if (collectionName) {
+            try {
+                await createFlashCardsCollection({ flashCards, collectionName }).unwrap();
+                toast.success('New collection is added!');
+            } catch (error) {
+                console.log(`addCollectionFireBaseError: `, error);
+            }
+        }
     };
 
     return (
@@ -42,7 +65,7 @@ const FlashCardsListOptions = ({ flashCards, sortHandler, isLoading }) => {
             <p className="inline-flex items-center px-5 py-2.5 text-xl font-semibold text-center cursor-default">
                 Total:
                 <span className="inline-flex items-center justify-center w-12 h-8 ms-2 text-l font-semibold text-blue-800 bg-blue-200 rounded-full">
-                    {isLoading ? (
+                    {flashCardsLoading ? (
                         <AiOutlineLoading3Quarters
                             size="15px"
                             color="blue"
@@ -119,7 +142,7 @@ const FlashCardsListOptions = ({ flashCards, sortHandler, isLoading }) => {
                     <button
                         type="button"
                         disabled={flashCards?.length === 0}
-                        onClick={addCollectionFireBase}
+                        onClick={createCollectionFireBase}
                         title="Save collection."
                         className="items-center justify-center p-3 bg-blue-600 hover:bg-blue-700 text-white text-xl font-medium rounded-l-md disabled:bg-gray-300 disabled:cursor-not-allowed"
                     >

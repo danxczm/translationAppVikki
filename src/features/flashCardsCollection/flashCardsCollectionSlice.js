@@ -1,7 +1,6 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { dataBase } from '../../Firebase/firebaseConfig';
 import { apiSlice } from '../api/apiSlice';
+import { dataBase } from '../../Firebase/firebaseConfig';
+import { collection, deleteDoc, doc, getDocs, setDoc } from 'firebase/firestore';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -23,13 +22,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             providesTags: ['FlashCardCollection'],
         }),
         createFlashCardsColletion: builder.mutation({
-            queryFn: async flashCards => {
+            queryFn: async ({ flashCards, collectionName }) => {
                 try {
                     const docRef = await doc(
                         collection(dataBase, 'flashCardsCollection'),
                         Date.now().toString()
                     );
-                    setDoc(docRef, { ...flashCards });
+                    setDoc(docRef, { ...flashCards, collectionName });
                     console.log('Collection written with ID: ', docRef.id);
                     return { data: 'ok' };
                 } catch (error) {
@@ -84,21 +83,3 @@ export const {
     useDeleteFlashCardsColletionMutation,
     usePrintFlashCardsCollectionMutation,
 } = extendedApiSlice;
-
-// export const addDataFireBase = async response => {
-//     const { word, translation, picture } = response;
-
-//     console.log(`response: `, response);
-
-//     try {
-//         const docRef = doc(collection(dataBase, 'data'), Date.now().toString());
-//         await setDoc(docRef, {
-//             picture,
-//             translation,
-//             word,
-//         });
-//         console.log('Document written with ID: ', docRef.id);
-//     } catch (e) {
-//         console.error('Error adding document: ', e);
-//     }
-// };

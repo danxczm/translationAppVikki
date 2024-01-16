@@ -12,7 +12,7 @@ const FlashCardsCollectionList = lazy(() =>
 const App = () => {
     return (
         <Routes>
-            <Route path="/translationAppVikki" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
                 <Route index element={<HomeTitle />} />
 
                 <Route path="flashCards">

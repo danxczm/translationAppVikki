@@ -11,7 +11,7 @@ import { ToastContainer } from 'react-toastify';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename="/translationAppVikki">
             <ToastContainer />
             <App />
         </BrowserRouter>

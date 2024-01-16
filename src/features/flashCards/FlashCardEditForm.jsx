@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useGetSingleFlashCardQuery, useUpdateFlashCardMutation } from './flashCardsSlice';
 import { skipToken } from '@reduxjs/toolkit/query';
 
-const EditFlashCard = () => {
+const FlashCardEditForm = () => {
     const { flashCardId } = useParams();
     const navigate = useNavigate();
 
@@ -116,4 +116,4 @@ const EditFlashCard = () => {
     );
 };
 
-export default EditFlashCard;
+export default FlashCardEditForm;

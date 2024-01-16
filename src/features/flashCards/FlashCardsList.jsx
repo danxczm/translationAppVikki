@@ -40,7 +40,6 @@ const FlashCardsList = () => {
 
     return (
         <>
-            <FlashCardAddForm />
             <FlashCardsListOptions
                 flashCards={sortedFlashCards}
                 sortHandler={sortHandler}

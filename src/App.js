@@ -24,7 +24,7 @@ const App = () => {
                     <Route index element={<FlashCardsCollectionList />} />
                 </Route>
 
-                <Route path="*" element={<Navigate to="/translationAppVikki" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
         </Routes>
     );

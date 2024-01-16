@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <Router>
+        <Router basename="/skylang">
             <Routes>
                 <Route path="/*" element={<App />} />
             </Routes>

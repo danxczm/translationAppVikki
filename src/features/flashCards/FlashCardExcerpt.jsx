@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
-import { useDeleteFlashCardMutation } from './flashCardsSlice';
+import { AutoTextSize } from 'auto-text-size';
+import { Rings } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
 
 import { LuBookMarked } from 'react-icons/lu';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { LiaGoogle } from 'react-icons/lia';
 
-import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import { useDeleteFlashCardMutation } from './flashCardsSlice';
+
 import { toastInitialSettings } from '../../utils/utils';
-import { Rings } from 'react-loader-spinner';
 
 const FlashCardExcerpt = ({ card }) => {
     const [deleteFlashCard, { isLoading, isSuccess }] = useDeleteFlashCardMutation();
@@ -72,13 +74,17 @@ const FlashCardExcerpt = ({ card }) => {
                 </Link>
                 <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full h-36">
                     <div className="relative flex">
-                        <h1
-                            onClick={() => copyTextToClipboard(card?.word)}
-                            title="Click to copy."
-                            className="cursor-pointer p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-xl"
-                        >
-                            {card?.word}
-                        </h1>
+                        <div onClick={() => copyTextToClipboard(card?.word)}>
+                            <AutoTextSize
+                                className="cursor-pointer p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-2xl"
+                                title="Click to copy."
+                                mode="box"
+                                minFontSizePx="24"
+                                maxFontSizePx="24"
+                            >
+                                {card?.word}
+                            </AutoTextSize>
+                        </div>
                         <a
                             rel="noreferrer"
                             target="_blank"
@@ -96,9 +102,16 @@ const FlashCardExcerpt = ({ card }) => {
                             <LiaGoogle size="20px" color="white" />
                         </a>
                     </div>
-                    <p className="text-gray-200 text-2xl mt-3 leading-6	">
-                        {card?.translation?.toLowerCase()}
-                    </p>
+                    <div>
+                        <AutoTextSize
+                            className="text-gray-200 mt-1 leading-6"
+                            mode="multiline"
+                            minFontSizePx="24"
+                            maxFontSizePx="24"
+                        >
+                            {card?.translation?.toLowerCase()}
+                        </AutoTextSize>
+                    </div>
                 </div>
             </div>
         </li>

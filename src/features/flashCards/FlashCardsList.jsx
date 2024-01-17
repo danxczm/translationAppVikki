@@ -5,7 +5,6 @@ import ReactToPrint from 'react-to-print';
 
 import { useGetFlashCardsQuery } from './flashCardsSlice';
 
-import FlashCardAddForm from './FlashCardAddForm';
 import FlashCardExcerpt from './FlashCardExcerpt';
 import FlashCardsListOptions from './FlashCardsListOptions';
 
@@ -52,7 +51,7 @@ const FlashCardsList = () => {
                     </h1>
                 ) : (
                     <ul
-                        className={`grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 place-items-center`}
+                        className={`grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 place-items-center`}
                     >
                         {content}
                     </ul>

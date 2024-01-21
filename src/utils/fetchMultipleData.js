@@ -27,6 +27,25 @@ const translateText = async (text, toLanguage = 'en') => {
     }
 };
 
+const getDefinition = async text => {
+    const options = {
+        method: 'GET',
+        url: `https://wordsapiv1.p.rapidapi.com/words/${text}/definitions`,
+        headers: {
+            'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+            'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
+        },
+    };
+
+    try {
+        const response = await axios.request(options);
+        return response.data.definitions;
+    } catch (error) {
+        console.error('getDefinition', error);
+        return null;
+    }
+};
+
 const fetchUnsplashPhoto = async searchQuery => {
     try {
         const response = await axios(
@@ -44,10 +63,12 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
         const translation = await translateText(searchQuery, translateTo);
         const getPictureInEng = await translateText(searchQuery);
         const unsplashPhoto = await fetchUnsplashPhoto(getPictureInEng);
+        const definition = await getDefinition(getPictureInEng);
 
         const response = {
             word: searchQuery,
             translation,
+            definition,
             picture: unsplashPhoto,
         };
 

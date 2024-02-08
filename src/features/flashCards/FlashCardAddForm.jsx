@@ -1,27 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { HiOutlineSearch } from 'react-icons/hi';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useAddFlashCardMutation } from './flashCardsSlice';
 
+const languageOptions = [
+    { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
+    { language: 'en', icon: '🇬🇧', fullName: 'English' },
+    { language: 'ru', icon: '🪆', fullName: 'hru-hru' },
+    { language: 'ko', icon: '🇰🇷', fullName: 'Korean' },
+    { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
+];
+
 const FlashCardAddForm = () => {
     const [searchWord, setSearchWord] = useState('');
     const [open, setOpen] = useState(false);
-    const [languageTranslation, setLanguageTranslation] = useState({
-        language: 'uk',
-        icon: '🇺🇦',
-        fullName: 'Ukrainian',
-    });
+    const [languageTranslation, setLanguageTranslation] = useState(
+        JSON.parse(localStorage.getItem('languageTranslation')) || {
+            language: 'uk',
+            icon: '🇺🇦',
+            fullName: 'Ukrainian',
+        }
+    );
+
+    useEffect(() => {
+        localStorage.setItem('languageTranslation', JSON.stringify(languageTranslation));
+    }, [languageTranslation]);
 
     const [addCard, { isLoading }] = useAddFlashCardMutation();
-
-    const languageOptions = [
-        { language: 'uk', icon: '🇺🇦', fullName: 'Ukrainian' },
-        { language: 'en', icon: '🇬🇧', fullName: 'English' },
-        { language: 'ru', icon: '🪆', fullName: 'hru-hru' },
-        { language: 'ko', icon: '🇰🇷', fullName: 'Korean' },
-        { language: 'es', icon: '🇪🇸', fullName: 'Spanish' },
-    ];
 
     const handleInputChange = e => {
         setSearchWord(e.target.value);
@@ -63,6 +69,7 @@ const FlashCardAddForm = () => {
                                     onClick={() => {
                                         if (item.language !== languageTranslation.language) {
                                             setLanguageTranslation(item);
+                                            console.log(`item: `, item);
                                         }
                                         setOpen(false);
                                     }}

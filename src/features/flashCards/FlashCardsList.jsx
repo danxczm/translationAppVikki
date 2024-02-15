@@ -49,11 +49,7 @@ const FlashCardsList = () => {
                     </h1>
                 ) : (
                     <ul
-<<<<<<< HEAD
-                        className={`grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 place-items-center`}
-=======
                         className={`grid xl:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 place-items-center`}
->>>>>>> 6d84a03699076889d4a4fe2433fbec2164827310
                     >
                         {content}
                     </ul>

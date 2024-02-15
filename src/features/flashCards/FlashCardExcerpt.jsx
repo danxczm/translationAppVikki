@@ -1,26 +1,13 @@
-<<<<<<< HEAD
-import { AutoTextSize } from 'auto-text-size';
-import { Rings } from 'react-loader-spinner';
-import { toast } from 'react-toastify';
-=======
 import { Link } from 'react-router-dom';
 import { AutoTextSize } from 'auto-text-size';
 import { Rings } from 'react-loader-spinner';
->>>>>>> 6d84a03699076889d4a4fe2433fbec2164827310
 
 import { LuBookMarked } from 'react-icons/lu';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { LiaGoogle } from 'react-icons/lia';
 
-<<<<<<< HEAD
-import { Link } from 'react-router-dom';
-import { useDeleteFlashCardMutation } from './flashCardsSlice';
-
-import { toastInitialSettings } from '../../utils/utils';
-=======
 import { useDeleteFlashCardMutation } from './flashCardsSlice';
 import { copyTextToClipboard } from '../../utils/copyTextToClipboard';
->>>>>>> 6d84a03699076889d4a4fe2433fbec2164827310
 
 const FlashCardExcerpt = ({ card }) => {
     const [deleteFlashCard, { isLoading, isSuccess }] = useDeleteFlashCardMutation();
@@ -78,11 +65,7 @@ const FlashCardExcerpt = ({ card }) => {
                     <div className="relative flex">
                         <div onClick={() => copyTextToClipboard(card?.word)}>
                             <AutoTextSize
-<<<<<<< HEAD
-                                className="cursor-pointer p-1 text-white bg-gradient-to-r from-teal-400/50 to-blue-500/20 font-semibold text-2xl"
-=======
                                 className="p-1 text-2xl font-semibold text-white cursor-pointer bg-gradient-to-r from-teal-400/50 to-blue-500/20"
->>>>>>> 6d84a03699076889d4a4fe2433fbec2164827310
                                 title="Click to copy."
                                 mode="box"
                                 minFontSizePx="24"
@@ -110,11 +93,7 @@ const FlashCardExcerpt = ({ card }) => {
                     </div>
                     <div>
                         <AutoTextSize
-<<<<<<< HEAD
-                            className="text-gray-200 mt-1 leading-6"
-=======
                             className="mt-1 leading-6 text-gray-200"
->>>>>>> 6d84a03699076889d4a4fe2433fbec2164827310
                             mode="multiline"
                             minFontSizePx="24"
                             maxFontSizePx="24"

@@ -1,14 +1,27 @@
 import React, { useRef } from 'react';
 
-import { useGetFlashCardsQuery } from './flashCardsSlice';
+import { useDeleteFlashCardMutation, useGetFlashCardsQuery } from './flashCardsSlice';
 import { AutoTextSize } from 'auto-text-size';
 
 import { copyTextToClipboard } from '../../utils/copyTextToClipboard';
 import FlashCardsPrint from './FlashCardsPrint';
+import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import { LuBookMarked } from 'react-icons/lu';
+import { LiaGoogle } from 'react-icons/lia';
 
 const FlashCardDescriptionCards = () => {
     const componentRef = useRef();
     const { data: flashCards, isSuccess, isError, error } = useGetFlashCardsQuery();
+    const [deleteFlashCard, { isLoading, isSuccess: deleted }] = useDeleteFlashCardMutation();
+
+    const deleteFlashCardHandler = async id => {
+        try {
+            await deleteFlashCard(id).unwrap();
+        } catch (error) {
+            console.log(`Failed to delete the card: `, error);
+        }
+    };
 
     let content;
     if (isSuccess) {
@@ -62,6 +75,37 @@ const FlashCardDescriptionCards = () => {
                     </div>
                     {/* <p className="overflow-hidden text-lg text-ellipsis">{card?.definition}</p> */}
                 </div>
+                <button
+                    type="button"
+                    onClick={() => {
+                        deleteFlashCardHandler(card?.id);
+                    }}
+                    className="absolute flex items-center justify-center w-8 h-8 transition bg-blue-200 rounded-full opacity-0 top-2 right-2 group-hover:opacity-100 hover:scale-125 active:scale-95"
+                >
+                    <AiOutlineDelete color="white" />
+                </button>
+                <Link
+                    className="absolute flex items-center justify-center w-8 h-8 transition bg-blue-200 rounded-full opacity-0 top-2 right-12 group-hover:opacity-100 hover:scale-125 active:scale-95"
+                    to={`/flashCards/edit/${card?.id}`}
+                >
+                    <AiOutlineEdit color="white" />
+                </Link>
+                <a
+                    rel="noreferrer"
+                    target="_blank"
+                    href={`https://dictionary.cambridge.org/dictionary/english/${card.word}`}
+                    className="absolute flex items-center justify-center w-8 h-8 transition bg-blue-200 rounded-full opacity-0 cursor-pointer top-2 right-24 group-hover:opacity-100 hover:scale-125 active:scale-95"
+                >
+                    <LuBookMarked color="white" />
+                </a>
+                <a
+                    rel="noreferrer"
+                    target="_blank"
+                    href={`https://www.google.com.ua/search?q=${card.word}`}
+                    className="absolute flex items-center justify-center w-8 h-8 transition bg-blue-200 rounded-full opacity-0 cursor-pointer top-2 right-[135px] group-hover:opacity-100 hover:scale-125 active:scale-95"
+                >
+                    <LiaGoogle size="20px" color="white" />
+                </a>
             </li>
         ));
     } else if (isError) {

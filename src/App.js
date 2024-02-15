@@ -8,6 +8,9 @@ const FlashCardEditForm = lazy(() => import('./features/flashCards/FlashCardEdit
 const FlashCardsCollectionList = lazy(() =>
     import('./features/flashCardsCollection/FlashCardsCollectionList')
 );
+const FlashCardDescriptionCards = lazy(() =>
+    import('./features/flashCards/FlashCardDescriptionCards')
+);
 
 const App = () => {
     return (
@@ -18,6 +21,10 @@ const App = () => {
                 <Route path="flashCards">
                     <Route index element={<FlashCards />} />
                     <Route path="edit/:flashCardId" element={<FlashCardEditForm />} />
+                </Route>
+
+                <Route path="descriptionCards">
+                    <Route index element={<FlashCardDescriptionCards />} />
                 </Route>
 
                 <Route path="cardsCollections">

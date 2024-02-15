@@ -1,12 +1,10 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { BiSave } from 'react-icons/bi';
-import ReactToPrint from 'react-to-print';
-
 import { useGetFlashCardsQuery } from './flashCardsSlice';
 
 import FlashCardExcerpt from './FlashCardExcerpt';
 import FlashCardsListOptions from './FlashCardsListOptions';
+import FlashCardsPrint from './FlashCardsPrint';
 
 const FlashCardsList = () => {
     const [sort, setSort] = useState(false);
@@ -46,32 +44,18 @@ const FlashCardsList = () => {
             />
             <div ref={componentRef}>
                 {sortedFlashCards?.length === 0 ? (
-                    <h1 className="p-5 text-center font-extrabold text-transparent text-4xl bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
+                    <h1 className="p-5 text-4xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-purple-800">
                         You haven't added any words yet
                     </h1>
                 ) : (
                     <ul
-                        className={`grid xl:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 place-items-center`}
+                        className={`grid xl:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-4 place-items-center`}
                     >
                         {content}
                     </ul>
                 )}
             </div>
-            <ReactToPrint
-                trigger={() =>
-                    sortedFlashCards?.length !== 0 && sortedFlashCards !== undefined ? (
-                        <div className="flex items-center justify-center mt-5 sticky bottom-5">
-                            <button className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded-md">
-                                <BiSave size="20px" className="mr-2" />
-                                <p className="font-semibold">Save as PDF</p>
-                            </button>
-                        </div>
-                    ) : (
-                        <></>
-                    )
-                }
-                content={() => componentRef.current}
-            />
+            <FlashCardsPrint flashCardsData={sortedFlashCards} componentRef={componentRef} />
         </>
     );
 };

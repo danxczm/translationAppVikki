@@ -10,7 +10,14 @@ const FlashCardEditForm = () => {
     const navigate = useNavigate();
 
     const {
-        data: { word = '', translation = '', picture = '' } = '',
+        data: {
+            word = '',
+            translation = '',
+            picture = '',
+            phonetic = '',
+            partOfSpeech = '',
+            definition = '',
+        } = '',
         isLoading: flashCardDataLoading,
     } = useGetSingleFlashCardQuery(flashCardId ?? skipToken);
     const [updateFlashCard, { isLoading }] = useUpdateFlashCardMutation();
@@ -18,14 +25,23 @@ const FlashCardEditForm = () => {
     const [newWord, setNewWord] = useState(word);
     const [newTranslation, setNewTranslation] = useState(translation);
     const [newPicture, setNewPicture] = useState(picture);
+    const [newPhonetic, setNewPhonetic] = useState(picture);
+    const [newPartOfSpeech, setNewPartOfSpeech] = useState(picture);
+    const [newDefinition, setNewDefinition] = useState(picture);
 
     useEffect(() => {
         setNewWord(word);
         setNewTranslation(translation);
         setNewPicture(picture);
-    }, [word, translation, picture]);
+        setNewPhonetic(phonetic);
+        setNewPartOfSpeech(partOfSpeech);
+        setNewDefinition(definition);
+    }, [word, translation, picture, phonetic, partOfSpeech, definition]);
 
-    const canUpdate = [newWord, newTranslation, newPicture].every(Boolean) && !flashCardDataLoading;
+    const canUpdate =
+        [newWord, newTranslation, newPicture, newPhonetic, newPartOfSpeech, newDefinition].every(
+            Boolean
+        ) && !flashCardDataLoading;
 
     const handleUpdateFlashCard = async e => {
         e.preventDefault();
@@ -35,6 +51,9 @@ const FlashCardEditForm = () => {
                 word: newWord,
                 translation: newTranslation,
                 picture: newPicture,
+                phonetic: newPhonetic,
+                partOfSpeech: newPartOfSpeech,
+                definition: newDefinition,
             };
 
             try {
@@ -54,7 +73,7 @@ const FlashCardEditForm = () => {
             >
                 Back
             </Link>
-            <form onSubmit={handleUpdateFlashCard} className="max-w-sm mx-auto m-10">
+            <form onSubmit={handleUpdateFlashCard} className="max-w-sm m-10 mx-auto">
                 <div className="mb-5">
                     <label htmlFor="word" className="block mb-2 text-sm font-medium text-gray-900">
                         Word that you are translating
@@ -101,6 +120,57 @@ const FlashCardEditForm = () => {
                         value={newPicture}
                         onChange={e => setNewPicture(e.target.value)}
                         required
+                    />
+                </div>
+                <div className="mb-5">
+                    <label
+                        htmlFor="phonetic"
+                        className="block mb-2 text-sm font-medium text-gray-900"
+                    >
+                        Phonetic
+                    </label>
+                    <input
+                        id="phonetic"
+                        type="text"
+                        name="phonetic"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder="phonetic"
+                        value={newPhonetic}
+                        onChange={e => setNewPhonetic(e.target.value)}
+                    />
+                </div>
+                <div className="mb-5">
+                    <label
+                        htmlFor="partOfSpeech"
+                        className="block mb-2 text-sm font-medium text-gray-900"
+                    >
+                        Part - Of - Speech
+                    </label>
+                    <input
+                        id="partOfSpeech"
+                        type="text"
+                        name="partOfSpeech"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder="part of speech"
+                        value={newPartOfSpeech}
+                        onChange={e => setNewPartOfSpeech(e.target.value)}
+                    />
+                </div>
+                <div className="mb-5">
+                    <label
+                        htmlFor="definition"
+                        className="block mb-2 text-sm font-medium text-gray-900"
+                    >
+                        Definition
+                    </label>
+                    <input
+                        id="definition"
+                        type="text"
+                        name="definition"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder="definition"
+                        value={newDefinition}
+                        onChange={e => setNewDefinition(e.target.value)}
                     />
                 </div>
                 <div className="flex justify-center">

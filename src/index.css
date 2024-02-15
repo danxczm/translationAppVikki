@@ -16,3 +16,9 @@ code {
 .active {
     @apply underline underline-offset-[4px] decoration-4 decoration-blue-400;
 }
+
+@media print {
+    audio {
+        display: none;
+    }
+}

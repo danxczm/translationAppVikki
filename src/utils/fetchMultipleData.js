@@ -27,6 +27,40 @@ const translateText = async (text, toLanguage = 'en') => {
     }
 };
 
+const getDetails = async text => {
+    let detailedData = {
+        phonetic: '',
+        audio: '',
+        partOfSpeech: '',
+        definition: '',
+    };
+
+    const validate = /\s/g.test(text);
+
+    if (validate) {
+        return detailedData;
+    }
+
+    try {
+        const response = await axios(`https://api.dictionaryapi.dev/api/v2/entries/en/${text}`);
+
+        detailedData = {
+            phonetic:
+                response?.data.find(item => item.phonetic !== undefined)?.phonetic ?? `/${text}/`,
+            audio: response?.data[0].phonetics.find(item => item.audio !== '')?.audio ?? '',
+            partOfSpeech: response?.data[0].meanings[0]?.partOfSpeech,
+            definition: response?.data[0].meanings[0]?.definitions[0].definition,
+        };
+
+        console.log(`detailedData: `, detailedData);
+
+        return detailedData;
+    } catch (error) {
+        console.log('getDetails', error);
+        return null;
+    }
+};
+
 const fetchUnsplashPhoto = async searchQuery => {
     try {
         const response = await axios(
@@ -44,10 +78,15 @@ export const fetchMultipleData = async (searchQuery, translateTo) => {
         const translation = await translateText(searchQuery, translateTo);
         const getPictureInEng = await translateText(searchQuery);
         const unsplashPhoto = await fetchUnsplashPhoto(getPictureInEng);
+        const { phonetic, audio, partOfSpeech, definition } = await getDetails(getPictureInEng);
 
         const response = {
             word: searchQuery,
             translation,
+            phonetic,
+            audio,
+            partOfSpeech,
+            definition,
             picture: unsplashPhoto,
         };
 

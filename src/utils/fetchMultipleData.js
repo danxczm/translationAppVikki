@@ -48,8 +48,8 @@ const getDetails = async text => {
             phonetic:
                 response?.data.find(item => item.phonetic !== undefined)?.phonetic ?? `/${text}/`,
             audio: response?.data[0].phonetics.find(item => item.audio !== '')?.audio ?? '',
-            partOfSpeech: response?.data[0].meanings[0]?.partOfSpeech,
-            definition: response?.data[0].meanings[0]?.definitions[0].definition,
+            partOfSpeech: response?.data[0].meanings[0]?.partOfSpeech ?? '',
+            definition: response?.data[0].meanings[0]?.definitions[0].definition ?? '',
         };
 
         console.log(`detailedData: `, detailedData);

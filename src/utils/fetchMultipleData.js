@@ -57,7 +57,7 @@ const getDetails = async text => {
         return detailedData;
     } catch (error) {
         console.log('getDetails', error);
-        return null;
+        return detailedData;
     }
 };
 

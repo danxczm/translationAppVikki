@@ -53,9 +53,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         }),
 
         addFlashCard: builder.mutation({
-            queryFn: async ({ searchWord, language, languageFullName }) => {
+            queryFn: async ({ trimmedWord, language, languageFullName }) => {
                 try {
-                    const result = await fetchMultipleData(searchWord, language);
+                    const result = await fetchMultipleData(trimmedWord, language);
 
                     // ! not sure this should be here
                     const { translation, word } = result;

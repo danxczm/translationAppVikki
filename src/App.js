@@ -1,8 +1,12 @@
 import { lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout';
 
-const HomeTitle = lazy(() => import('./components/HomeTitle'));
+import Layout from './components/Layout';
+import Login from './components/auth/AuthLogin';
+import Register from './components/auth/AuthRegister';
+import { AuthProvider } from './app/authContext';
+import ProtectedRoute from './components/ProtectedRoute';
+const Home = lazy(() => import('./components/Home'));
 const FlashCards = lazy(() => import('./features/flashCards/FlashCards'));
 const FlashCardEditForm = lazy(() => import('./features/flashCards/FlashCardEditForm'));
 const FlashCardsCollectionList = lazy(() =>
@@ -14,26 +18,33 @@ const FlashCardDescriptionCards = lazy(() =>
 
 const App = () => {
     return (
-        <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route index element={<HomeTitle />} />
+        <AuthProvider>
+            <Routes>
+                <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
 
-                <Route path="flashCards">
-                    <Route index element={<FlashCards />} />
-                    <Route path="edit/:flashCardId" element={<FlashCardEditForm />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="register" element={<Register />} />
+
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="flashCards">
+                            <Route index element={<FlashCards />} />
+                            <Route path="edit/:flashCardId" element={<FlashCardEditForm />} />
+                        </Route>
+
+                        <Route path="descriptionCards">
+                            <Route index element={<FlashCardDescriptionCards />} />
+                        </Route>
+
+                        <Route path="cardsCollections">
+                            <Route index element={<FlashCardsCollectionList />} />
+                        </Route>
+                    </Route>
+
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>
-
-                <Route path="descriptionCards">
-                    <Route index element={<FlashCardDescriptionCards />} />
-                </Route>
-
-                <Route path="cardsCollections">
-                    <Route index element={<FlashCardsCollectionList />} />
-                </Route>
-
-                <Route path="*" element={<Navigate to="/" replace />} />
-            </Route>
-        </Routes>
+            </Routes>
+        </AuthProvider>
     );
 };
 

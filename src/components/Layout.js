@@ -6,7 +6,7 @@ const Layout = () => {
     return (
         <>
             <Header />
-            <main className="xl:max-w-7xl lg:max-w-5xl md:max-w-4xl sm:max-w-2xl mx-auto px-4">
+            <main className="px-4 mx-auto xl:max-w-7xl lg:max-w-5xl md:max-w-4xl sm:max-w-2xl">
                 <Suspense fallback={<div>Loading...</div>}>
                     <Outlet />
                 </Suspense>

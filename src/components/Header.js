@@ -1,6 +1,11 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../app/authContext';
+import { doSignOut } from '../Firebase/auth';
 
 const Header = () => {
+    const navigate = useNavigate();
+    const { userLoggedIn } = useAuth();
+
     return (
         <header>
             <nav className="bg-white border-gray-200 px-6 py-2.5">
@@ -16,39 +21,74 @@ const Header = () => {
                         </span>
                     </Link>
                     <nav className="flex items-center justify-between w-auto">
-                        <ul className="flex flex-row mt-0 space-x-8 font-medium">
-                            <li>
-                                <NavLink
-                                    className="py-2 pl-3 pr-4 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
-                                    to="/"
-                                >
-                                    Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    className="py-2 pl-3 pr-4 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
-                                    to="flashCards"
-                                >
-                                    Flash Cards
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    className="py-2 pl-3 pr-4 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
-                                    to="descriptionCards"
-                                >
-                                    Cards Details
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    className="py-2 pl-3 pr-4 text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
-                                    to="cardsCollections"
-                                >
-                                    Collections
-                                </NavLink>
-                            </li>
+                        <ul className="flex flex-row items-center mt-0 space-x-5 font-medium">
+                            {userLoggedIn ? (
+                                <>
+                                    <li>
+                                        <NavLink
+                                            className="text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
+                                            to="/"
+                                        >
+                                            Home
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            className="text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
+                                            to="flashCards"
+                                        >
+                                            Flash Cards
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            className="text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
+                                            to="descriptionCards"
+                                        >
+                                            Cards Details
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink
+                                            className="text-gray-700 hover:underline underline-offset-4 decoration-4 decoration-blue-400"
+                                            to="cardsCollections"
+                                        >
+                                            Collections
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <button
+                                            className="px-3 py-1 text-white duration-300 bg-blue-600 rounded-xl hover:bg-blue-400"
+                                            onClick={() => {
+                                                doSignOut().then(() => {
+                                                    navigate('/');
+                                                });
+                                            }}
+                                        >
+                                            Log out
+                                        </button>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li>
+                                        <Link
+                                            className="px-3 py-2 text-white duration-300 bg-blue-600 rounded-lg hover:bg-blue-700"
+                                            to="login"
+                                        >
+                                            Sign in
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="px-3 py-2 text-white duration-300 bg-blue-600 rounded-lg hover:bg-blue-700"
+                                            to="register"
+                                        >
+                                            Sign up
+                                        </Link>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </nav>
                 </div>

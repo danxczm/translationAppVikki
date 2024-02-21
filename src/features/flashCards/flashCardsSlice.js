@@ -3,7 +3,6 @@ import { collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '
 import { fetchMultipleData } from '../../utils/fetchMultipleData';
 
 import { dataBase } from '../../Firebase/firebaseConfig';
-import { toast } from 'react-toastify';
 
 export const extendedApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -53,19 +52,13 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         }),
 
         addFlashCard: builder.mutation({
-            queryFn: async ({ trimmedWord, language, languageFullName }) => {
+            queryFn: async ({ trimmedWord, language }) => {
                 try {
                     const result = await fetchMultipleData(trimmedWord, language);
 
-                    // ! not sure this should be here
-                    const { translation, word } = result;
-
-                    if (translation.toLowerCase() === word.toLowerCase()) {
-                        return toast.error(
-                            `You can't translate ${languageFullName} to ${languageFullName}! Click the checkbox to select a language for translation!`
-                        );
+                    if (!result) {
+                        return { data: 'ok' };
                     }
-                    // !
 
                     const docRef = doc(collection(dataBase, 'flashCards'), Date.now().toString());
                     await setDoc(docRef, {

@@ -70,7 +70,6 @@ const FlashCardAddForm = () => {
                                     onClick={() => {
                                         if (item.language !== languageTranslation.language) {
                                             setLanguageTranslation(item);
-                                            console.log(`item: `, item);
                                         }
                                         setOpen(false);
                                     }}

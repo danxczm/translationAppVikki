@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const translateText = async (text, toLanguage = 'en') => {
     const translationOptions = {
@@ -20,7 +21,8 @@ const translateText = async (text, toLanguage = 'en') => {
 
     try {
         const response = await axios(translationOptions);
-        return response?.data[0]?.translations[0]?.text;
+
+        return response?.data[0]?.translations[0]?.text.toLowerCase();
     } catch (error) {
         console.error('translateText', error);
         return null;
@@ -52,8 +54,6 @@ const getDetails = async text => {
             definition: response?.data[0].meanings[0]?.definitions[0].definition ?? '',
         };
 
-        console.log(`detailedData: `, detailedData);
-
         return detailedData;
     } catch (error) {
         console.log('getDetails', error);
@@ -76,6 +76,15 @@ const fetchUnsplashPhoto = async searchQuery => {
 export const fetchMultipleData = async (searchQuery, translateTo) => {
     try {
         const translation = await translateText(searchQuery, translateTo);
+
+        if (translation === searchQuery) {
+            toast.info(
+                'There is something wrong  in your text, it may be a typo or native and target languages are the same! 🏳'
+            );
+
+            return null;
+        }
+
         const getPictureInEng = await translateText(searchQuery);
         const unsplashPhoto = await fetchUnsplashPhoto(getPictureInEng);
         const { phonetic, audio, partOfSpeech, definition } = await getDetails(getPictureInEng);

@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/translationAppVikki/static/css/main.570028c6.css",
-    "main.js": "/translationAppVikki/static/js/main.46bd1bb2.js",
+    "main.js": "/translationAppVikki/static/js/main.a4f9202c.js",
     "static/js/68.b315de70.chunk.js": "/translationAppVikki/static/js/68.b315de70.chunk.js",
-    "static/js/445.3395809a.chunk.js": "/translationAppVikki/static/js/445.3395809a.chunk.js",
-    "static/js/389.d61107eb.chunk.js": "/translationAppVikki/static/js/389.d61107eb.chunk.js",
+    "static/js/445.1cec7b17.chunk.js": "/translationAppVikki/static/js/445.1cec7b17.chunk.js",
+    "static/js/389.3949ba65.chunk.js": "/translationAppVikki/static/js/389.3949ba65.chunk.js",
     "static/js/500.ebb5a348.chunk.js": "/translationAppVikki/static/js/500.ebb5a348.chunk.js",
-    "static/js/352.075bbb28.chunk.js": "/translationAppVikki/static/js/352.075bbb28.chunk.js",
+    "static/js/352.d53aa739.chunk.js": "/translationAppVikki/static/js/352.d53aa739.chunk.js",
     "static/js/360.0f81d13d.chunk.js": "/translationAppVikki/static/js/360.0f81d13d.chunk.js",
     "static/js/820.ca08fc7e.chunk.js": "/translationAppVikki/static/js/820.ca08fc7e.chunk.js",
     "static/js/294.470804b2.chunk.js": "/translationAppVikki/static/js/294.470804b2.chunk.js",
@@ -15,12 +15,12 @@
     "static/js/586.c632282c.chunk.js": "/translationAppVikki/static/js/586.c632282c.chunk.js",
     "index.html": "/translationAppVikki/index.html",
     "main.570028c6.css.map": "/translationAppVikki/static/css/main.570028c6.css.map",
-    "main.46bd1bb2.js.map": "/translationAppVikki/static/js/main.46bd1bb2.js.map",
+    "main.a4f9202c.js.map": "/translationAppVikki/static/js/main.a4f9202c.js.map",
     "68.b315de70.chunk.js.map": "/translationAppVikki/static/js/68.b315de70.chunk.js.map",
-    "445.3395809a.chunk.js.map": "/translationAppVikki/static/js/445.3395809a.chunk.js.map",
-    "389.d61107eb.chunk.js.map": "/translationAppVikki/static/js/389.d61107eb.chunk.js.map",
+    "445.1cec7b17.chunk.js.map": "/translationAppVikki/static/js/445.1cec7b17.chunk.js.map",
+    "389.3949ba65.chunk.js.map": "/translationAppVikki/static/js/389.3949ba65.chunk.js.map",
     "500.ebb5a348.chunk.js.map": "/translationAppVikki/static/js/500.ebb5a348.chunk.js.map",
-    "352.075bbb28.chunk.js.map": "/translationAppVikki/static/js/352.075bbb28.chunk.js.map",
+    "352.d53aa739.chunk.js.map": "/translationAppVikki/static/js/352.d53aa739.chunk.js.map",
     "360.0f81d13d.chunk.js.map": "/translationAppVikki/static/js/360.0f81d13d.chunk.js.map",
     "820.ca08fc7e.chunk.js.map": "/translationAppVikki/static/js/820.ca08fc7e.chunk.js.map",
     "294.470804b2.chunk.js.map": "/translationAppVikki/static/js/294.470804b2.chunk.js.map",
@@ -30,6 +30,6 @@
   },
   "entrypoints": [
     "static/css/main.570028c6.css",
-    "static/js/main.46bd1bb2.js"
+    "static/js/main.a4f9202c.js"
   ]
 }

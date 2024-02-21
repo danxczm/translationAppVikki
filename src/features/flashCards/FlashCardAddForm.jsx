@@ -35,10 +35,11 @@ const FlashCardAddForm = () => {
 
     const handleSubmitButton = async e => {
         e.preventDefault();
+        const trimmedWord = searchWord.trim();
 
         try {
             addCard({
-                searchWord,
+                trimmedWord,
                 language: languageTranslation.language,
                 languageFullName: languageTranslation.fullName,
             }).unwrap();
@@ -50,26 +51,25 @@ const FlashCardAddForm = () => {
 
     return (
         <div className="flex justify-between py-3">
-            <div className="w-32 rounded relative">
+            <div className="relative w-32 rounded">
                 <div
                     onClick={() => setOpen(!open)}
-                    className="px-5 rounded-md text-6xl hover:bg-blue-600 hover:text-white flex justify-center items-center cursor-pointer"
+                    className="flex items-center justify-center px-5 text-6xl rounded-md cursor-pointer hover:bg-blue-600 hover:text-white"
                 >
                     {languageTranslation.icon}
                 </div>
 
                 {open && (
-                    <ul className="bg-white absolute z-50">
+                    <ul className="absolute z-50 bg-white">
                         {languageOptions
                             .filter(item => item.language !== languageTranslation.language)
                             .map(item => (
                                 <li
                                     key={item.language}
-                                    className="flex justify-center items-center px-7 rounded-md text-6xl hover:bg-blue-600 hover:text-white cursor-pointer"
+                                    className="flex items-center justify-center text-6xl rounded-md cursor-pointer px-7 hover:bg-blue-600 hover:text-white"
                                     onClick={() => {
                                         if (item.language !== languageTranslation.language) {
                                             setLanguageTranslation(item);
-                                            console.log(`item: `, item);
                                         }
                                         setOpen(false);
                                     }}
@@ -88,7 +88,7 @@ const FlashCardAddForm = () => {
                     Search
                 </label>
                 <div className="relative">
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <div className="absolute inset-y-0 flex items-center pointer-events-none start-0 ps-3">
                         <HiOutlineSearch size="20px" />
                     </div>
                     <input
@@ -99,7 +99,7 @@ const FlashCardAddForm = () => {
                         onChange={handleInputChange}
                         type="search"
                         id="default-search"
-                        className="block w-full p-4 ps-10 text-xl text-gray-900 focus:outline-none disabled:bg-inherit"
+                        className="block w-full p-4 text-xl text-gray-900 ps-10 focus:outline-none disabled:bg-inherit"
                         placeholder={`Translate into ${languageTranslation.fullName}`}
                         required
                     />
@@ -118,7 +118,7 @@ const FlashCardAddForm = () => {
                             type="button"
                             className="text-white absolute end-0 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 text-center inline-flex items-center w-[132px] h-[44px]"
                         >
-                            <AiOutlineLoading3Quarters className="inline w-4 h-4 me-3 text-white animate-spin" />
+                            <AiOutlineLoading3Quarters className="inline w-4 h-4 text-white me-3 animate-spin" />
                             Loading...
                         </button>
                     )}

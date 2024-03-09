@@ -51,8 +51,8 @@ const Login = () => {
     };
 
     return (
-        <main className="flex w-full place-content-center place-items-center self-center">
-            <div className="w-96 space-y-5 rounded-xl border p-4 text-gray-600 shadow-xl">
+        <main className="flex self-center w-full place-content-center place-items-center">
+            <div className="p-4 space-y-5 text-gray-600 border shadow-xl w-96 rounded-xl">
                 <div className="text-center">
                     <div className="mt-2">
                         <h3 className="text-xl font-semibold text-gray-800 sm:text-2xl">
@@ -71,7 +71,7 @@ const Login = () => {
                             onChange={e => {
                                 setEmail(e.target.value);
                             }}
-                            className="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none transition duration-300 focus:border-indigo-600"
+                            className="w-full px-3 py-2 mt-2 text-gray-500 transition duration-300 bg-transparent border rounded-lg shadow-sm outline-none focus:border-indigo-600"
                         />
                     </div>
 
@@ -85,7 +85,7 @@ const Login = () => {
                             onChange={e => {
                                 setPassword(e.target.value);
                             }}
-                            className="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none transition duration-300 focus:border-indigo-600"
+                            className="w-full px-3 py-2 mt-2 text-gray-500 transition duration-300 bg-transparent border rounded-lg shadow-sm outline-none focus:border-indigo-600"
                         />
                     </div>
 
@@ -101,15 +101,15 @@ const Login = () => {
                         {isSigningIn ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
-                <p className="text-center text-sm">
+                <p className="text-sm text-center">
                     Don't have an account?{' '}
                     <Link to={'/register'} className="font-bold hover:underline">
                         Sign up
                     </Link>
                 </p>
-                <div className="flex w-full flex-row text-center">
+                <div className="flex flex-row w-full text-center">
                     <div className="mb-2.5 mr-2 w-full border-b-2"></div>
-                    <div className="w-fit text-sm font-bold">OR</div>
+                    <div className="text-sm font-bold w-fit">OR</div>
                     <div className="mb-2.5 ml-2 w-full border-b-2"></div>
                 </div>
                 <button
@@ -124,7 +124,7 @@ const Login = () => {
                     }`}
                 >
                     <svg
-                        className="h-5 w-5"
+                        className="w-5 h-5"
                         viewBox="0 0 48 48"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

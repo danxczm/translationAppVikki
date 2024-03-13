@@ -1,5 +1,7 @@
 ### TODO:
 
--   create FlashCardSingle component/page to show all the details of the word/sentence
+-   use chadcn to redesign app (ui.shadcn.com + ui.aceternity)
+-   compliment animations with Frame Motion
 -   options to show - translation - definition - example
--   try out Deepl API/ any other API which will suggest part-of-speech
+-   suggest part-of-speech before showing result
+-   rename project to PawFluency
